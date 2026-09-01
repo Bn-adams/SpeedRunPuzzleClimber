@@ -1,11 +1,21 @@
+using UnityEditor.Rendering;
 using UnityEngine;
-
-
-
+using UnityEngine.InputSystem.HID;
 [RequireComponent(typeof(JointManager))]
+
+
+
+[RequireComponent(typeof(SpawnManager))]
+[RequireComponent(typeof(TimerManager))]
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerManager : MonoBehaviour
 {
-    private JointManager _jointManager;
+    private HUDManager _hudManager;
+
+    public JointManager jointManager;
+    public SpawnManager spawnManager;
+    public TimerManager timerManager;
+    public PlayerInput playerInput;
 
     [Header("Rigidbodys")]
     public Rigidbody bodyRB;
@@ -17,60 +27,69 @@ public class PlayerManager : MonoBehaviour
 
     // Spawning and checkpoints
     public bool isRespawning;
-    private Vector2 spawnPoint;
-    public Vector2 SpawnPoint
-    {
-        get => spawnPoint;
-        set
-        {
-            if (spawnPoint != value)
-            {
-                spawnPoint = value;
-                currentCheckpoint = Vector2.zero;
-                //SpawnPlayer();
-            }
-        }
-    }
-    private Vector2 potentialCheckPoint;
-    public Vector2 PotentialCheckpoint
-    {
-        get => potentialCheckPoint;
-        set
-        {
-            if (potentialCheckPoint != value)
-            {
-                potentialCheckPoint = value;
-            }
-        }
-    }
-    public Vector2 currentCheckpoint;
+
+    public bool hasFinished;
+    
 
 
 
     public float armLength = 4.2f;
 
-    public bool canGripFinish { get; set; }
-    public bool canGripCheckpoint { get; set; }
-    public bool canGripJug { get; set; }
-    public bool canGripCrimp { get; set; }
-    public bool canGripPocket { get; set; }
-    public bool canGripBreaker { get; set; }
-
-
+    // Gripping
     public bool isGripping;
+
+    // Grip types
+    public bool CanGripFinish { get; set; }
+    public bool CanGripCheckpoint { get; set; }
+    public bool CanGripJug { get; set; }
+    public bool CanGripCrimp { get; set; }
+    public bool CanGripPocket { get; set; }
+    public bool CanGripBreaker { get; set; }
+
+
 
     private void Awake()
     {
-        _jointManager = GetComponent<JointManager>();
+        jointManager = GetComponent<JointManager>();
+        spawnManager = GetComponent<SpawnManager>();
+        timerManager = GetComponent<TimerManager>();
+        playerInput = GetComponent<PlayerInput>();
+    }
+    private void Start()
+    {
+        spawnManager.SpawnPlayer();
     }
 
     private void Update()
     {
-        _jointManager.JointChecking();
+        jointManager.JointChecking();
     }
 
-    public void SpawnPlayer()
+    public void ResetGrips()
     {
+        isGripping = false;
+        CanGripFinish = false;
+        CanGripCheckpoint = false;
+        CanGripJug = false;
+        CanGripCrimp = false;
+        CanGripPocket = false;
+        CanGripBreaker = false;
 
+    }
+    public void Finish()
+    {
+        if (!hasFinished)
+        {
+            hasFinished = true;
+            timerManager.isTimerRunning = false;
+            float timeDif = timerManager.timeElapsed - GameManager.Instance.GetCurrentLevelBestTime();
+            _hudManager = FindAnyObjectByType<HUDManager>();
+            _hudManager.OnFinish(timeDif, GameManager.Instance.GetCurrentLevelBestTime());
+
+
+            Debug.Log("Best Time: " + GameManager.Instance.GetCurrentLevelBestTime());
+            GameManager.Instance.setCurrentLevelTime(timerManager.timeElapsed);
+            Debug.Log("Time: " + timerManager.timeElapsed + ((timeDif > 0) ? " Time difference from best: +" : " Time difference from best: ") + timeDif);
+        }
     }
 }

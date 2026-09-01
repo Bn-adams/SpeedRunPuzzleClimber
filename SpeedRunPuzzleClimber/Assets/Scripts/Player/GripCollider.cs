@@ -15,26 +15,26 @@ public class GripCollider : MonoBehaviour
 
         if (collider.gameObject.CompareTag("Finish"))
         {
-            _playerMovement.canGripFinish = true;
+            _playerMovement.CanGripFinish = true;
         }
         if (collider.gameObject.CompareTag("Checkpoint"))
         {
-            _playerMovement.canGripCheckpoint = true;
-            _playerMovement.PotentialCheckpoint = collider.transform.position;
+            _playerMovement.CanGripCheckpoint = true;
+            _playerMovement.spawnManager.PotentialCheckpoint = collider.transform.position;
         }
         
         if (collider.gameObject.CompareTag("Jug"))
         {
-            _playerMovement.canGripJug = true;
+            _playerMovement.CanGripJug = true;
         }
         if (collider.gameObject.CompareTag("Crimp"))
         {
-            _playerMovement.canGripCrimp = true;
+            _playerMovement.CanGripCrimp = true;
             //IsBreaker(collider, true, true);
         }
         if (collider.gameObject.CompareTag("Pocket"))
         {
-            _playerMovement.canGripPocket = true;
+            _playerMovement.CanGripPocket = true;
             //IsBreaker(collider, true, true);
         }
     }
@@ -43,26 +43,26 @@ public class GripCollider : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Finish"))
         {
-            _playerMovement.canGripFinish = false;
+            _playerMovement.CanGripFinish = false;
         }
         if (collider.gameObject.CompareTag("Checkpoint"))
         {
-            _playerMovement.canGripCheckpoint = false;
+            _playerMovement.CanGripCheckpoint = false;
         }
        
         if (collider.gameObject.CompareTag("Jug"))
         {
-            _playerMovement.canGripJug = false;
+            _playerMovement.CanGripJug = false;
             //IsBreaker(collider, true, false);
         }
         if (collider.gameObject.CompareTag("Crimp"))
         {
-            _playerMovement.canGripCrimp = false;
+            _playerMovement.CanGripCrimp = false;
             //IsBreaker(collider, true, false);
         }
         if (collider.gameObject.CompareTag("Pocket"))
         {
-            _playerMovement.canGripPocket = false;
+            _playerMovement.CanGripPocket = false;
             //IsBreaker(collider, true, false);
         }
     }
