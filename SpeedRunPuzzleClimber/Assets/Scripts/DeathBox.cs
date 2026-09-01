@@ -8,7 +8,7 @@ public class DeathBox : MonoBehaviour
         
         if (_playerManager != null)
         {
-            _playerManager.SpawnPlayer();
+            _playerManager.spawnManager.SpawnPlayer();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,6 +22,8 @@ public class PlayerInput : MonoBehaviour
     private Vector2 leftStick;
     private Vector2 rightStick;
 
+    private bool _leftStickInUse = true;
+
     // Dead zones
     private float triggerDeadZone = 0.1f;
     private float joystickDeadZone = 0.2f;
@@ -39,7 +42,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float handMoveSpeed = 100;
     [SerializeField] private float maxVelocity = 25f;
     [SerializeField] private float maxLinearDampening = 1;
-    private bool shouldRestartTimer = false;
+    public bool shouldRestartTimer = false;
 
     // Vibration
     private Coroutine GripVibrationCoroutine;
@@ -76,6 +79,8 @@ public class PlayerInput : MonoBehaviour
         // Read joystick values
         leftStick = gamepad.leftStick.ReadValue();
         rightStick = gamepad.rightStick.ReadValue();
+        if (rightStick != Vector2.zero) _leftStickInUse = false;
+        else _leftStickInUse = true;
 
         leftTrigger = gamepad.leftTrigger.ReadValue();
         rightTrigger = gamepad.rightTrigger.ReadValue();
@@ -83,10 +88,10 @@ public class PlayerInput : MonoBehaviour
         leftShoulder = gamepad.leftShoulder.ReadValue();
         rightShoulder = gamepad.rightShoulder.ReadValue();
 
-        //if (gamepad.buttonNorth.wasPressedThisFrame)
-        //{
-        //    SpawnPlayer();
-        //}
+        if (gamepad.buttonNorth.wasPressedThisFrame)
+        {
+            _playerManager.spawnManager.SpawnPlayer();
+        }
         //if (gamepad.buttonEast.wasPressedThisFrame)
         //{
         //    currentCheckpoint = Vector2.zero;
@@ -116,7 +121,8 @@ public class PlayerInput : MonoBehaviour
     {
         if (!_playerManager.isGripping) return;
 
-        GrippedBodyMovement(leftStick);
+        if (_leftStickInUse) GrippedBodyMovement(leftStick);
+        else GrippedBodyMovement(rightStick);
     }
 
     
@@ -141,27 +147,27 @@ public class PlayerInput : MonoBehaviour
     // Move hand based on joystick input and handle gripping
     private void ControllerMovement()
     {
+        Vector2 stick;
+        if (_leftStickInUse)
+        {
+            stick = leftStick;
+        }
+        else
+        {
+            stick = rightStick;
+        }
+
         if (!_playerManager.isGripping)
         {
             Vector3 L_WorldOffset = new Vector3(
-                Mathf.Clamp(leftStick.x, -1, 1) * armLength,
-                Mathf.Clamp(leftStick.y, -1, 1) * armLength,
+                Mathf.Clamp(stick.x, -1, 1) * armLength,
+                Mathf.Clamp(stick.y, -1, 1) * armLength,
                 0f);
 
             Vector3 targetPos = L_WorldOffset + _bodyRB.transform.position;
             _handRB.transform.position = Vector3.MoveTowards(_handRB.transform.position, targetPos, handMoveSpeed * Time.deltaTime);
         }
 
-        //if (!R_isGripping)
-        //{
-        //    Vector3 R_WorldOffset = new Vector3(
-        //        Mathf.Clamp(rightStick.x, -1, 1) * armLength,
-        //        Mathf.Clamp(rightStick.y, -1, 1) * armLength,
-        //        0f);
-
-        //    Vector3 targetPos = R_WorldOffset + R_shoulderPoint.transform.position;
-        //    R_handRB.transform.position = Vector3.MoveTowards(R_handRB.transform.position, targetPos, handMoveSpeed * Time.deltaTime);
-        //}
     }
     private void GrippingLogic()
     {
@@ -173,22 +179,22 @@ public class PlayerInput : MonoBehaviour
         // Left Hand Grip Logic
         if (leftTriggerPressed || rightTriggerPressed)
         {
-            if (_playerManager.canGripFinish) { OnGrip(); Finish(); }
-            else if (_playerManager.canGripCheckpoint) { OnGrip(); SetCheckPoint(); }
-            else if (_playerManager.canGripJug && !leftShoulderPressed) OnGrip();
-            else if (_playerManager.canGripPocket && leftShoulderPressed) OnGrip();
-            else if (!_playerManager.isRespawning) { OnLGripRelease(); }
+            if (_playerManager.CanGripFinish) { OnGrip(); Finish(); }
+            else if (_playerManager.CanGripCheckpoint) { OnGrip(); _playerManager.spawnManager.SetCheckPoint(); }
+            else if (_playerManager.CanGripJug && !leftShoulderPressed) OnGrip();
+            else if (_playerManager.CanGripPocket && leftShoulderPressed) OnGrip();
+            else if (!_playerManager.isRespawning) { OnGripRelease(); }
         }
         else if (leftShoulderPressed || rightShoulderPressed)
         {
-            if (_playerManager.canGripFinish) { OnGrip(); Finish(); }
-            else if (_playerManager.canGripCheckpoint) { OnGrip(); SetCheckPoint(); }
-            else if (_playerManager.canGripCrimp && !leftTriggerPressed) OnGrip();
-            else if (!_playerManager.isRespawning) { OnLGripRelease(); }
+            if (_playerManager.CanGripFinish) { OnGrip(); Finish(); }
+            else if (_playerManager.CanGripCheckpoint) { OnGrip(); _playerManager.spawnManager.SetCheckPoint(); }
+            else if (_playerManager.CanGripCrimp && !leftTriggerPressed) OnGrip();
+            else if (!_playerManager.isRespawning) { OnGripRelease(); }
         }
         else
         {
-            OnLGripRelease();
+            OnGripRelease();
         }
         
     }
@@ -200,48 +206,42 @@ public class PlayerInput : MonoBehaviour
             _playerManager.isRespawning = false;
             if (shouldRestartTimer)
             {
-                //timerHandeler.timeElapsed = 0f;
-                //timerHandeler.isTimerRunning = true;
+                _playerManager.timerManager.timeElapsed = 0f;
+                _playerManager.timerManager.isTimerRunning = true;
                 shouldRestartTimer = false;
             }
             _bodyRB.constraints = RigidbodyConstraints.None;
             _bodyRB.constraints = RigidbodyConstraints.FreezePositionZ;
             _bodyRB.constraints = RigidbodyConstraints.FreezeRotation;
         }
-        //if (!L_hasVibrated && vibrationEnabled)
-        //{
-        //    L_hasVibrated = true;
-        //    if (GripVibrationCoroutine != null) StopCoroutine(GripVibrationCoroutine);
-        //    GripVibrationCoroutine = StartCoroutine(DoGripVibration());
-        //}
+        if (!L_hasVibrated && vibrationEnabled)
+        {
+            L_hasVibrated = true;
+            if (GripVibrationCoroutine != null) StopCoroutine(GripVibrationCoroutine);
+            GripVibrationCoroutine = StartCoroutine(DoGripVibration());
+        }
         _playerManager.isGripping = true;
         _handRB.constraints = RigidbodyConstraints.FreezeAll;
     }
-    private void OnLGripRelease()
+    private void OnGripRelease()
     {
         L_hasVibrated = false;
         _playerManager.isGripping = false;
         _handRB.constraints = RigidbodyConstraints.None;
     }
-    
-    //private IEnumerator DoGripVibration()
-    //{
-    //    Gamepad.current.SetMotorSpeeds(vibrationStrengthLowFrequency, vibrationStrengthHighFrequency);
-    //    yield return new WaitForSeconds(vibrationDuration);
-    //    Gamepad.current.SetMotorSpeeds(0, 0);
-    //}
-    
-    
-    
-    
 
+    private IEnumerator DoGripVibration()
+    {
+        Gamepad.current.SetMotorSpeeds(vibrationStrengthLowFrequency, vibrationStrengthHighFrequency);
+        yield return new WaitForSeconds(vibrationDuration);
+        Gamepad.current.SetMotorSpeeds(0, 0);
+    }
+
+    
 
     private void Finish()
     {
-
+        _playerManager.Finish();
     }
-    private void SetCheckPoint()
-    {
-
-    }
+    
 }
