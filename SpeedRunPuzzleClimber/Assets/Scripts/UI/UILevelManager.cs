@@ -22,16 +22,18 @@ public class UILevelManager : MonoBehaviour
     [SerializeField] public float[] BTDTime;
 
     private bool controllerActive = true;
-    private Vector2 lastMousePos;
+    private Vector2 lastMouse;
     private float mouseMoveThreshold = 0.5f;
 
 
     private void OnEnable()
     {
+        root = GetComponent<UIDocument>().rootVisualElement;
+
         var uiDocument = GetComponent<UIDocument>();
         root = uiDocument.rootVisualElement;
         root.RegisterCallback<MouseMoveEvent>(OnMouseMoved);
-        
+
         // Hocks up buttons
         HookUpBackButton();
         HookUpLeaderboardButton();
@@ -42,11 +44,15 @@ public class UILevelManager : MonoBehaviour
     }
     private void Update()
     {
+
+        
+
         // Checks for mouse movement, if true turn of controller movement and switch to mouse
         if (Mouse.current.delta.ReadValue().sqrMagnitude > 0.1f)
         {
+            Debug.Log("mouse move");
             UnityEngine.Cursor.lockState = CursorLockMode.None;
-            UnityEngine.Cursor.visible = true;
+            controllerActive = false;
             RemoveControllerFocus();
         }
 
@@ -65,10 +71,10 @@ public class UILevelManager : MonoBehaviour
                 HideMouse();
             }
         }
-
-        // If controller isnt active (mouse is in use) dont check for controller inputs
+        // If mouse  in use dont check for controller inputs
         if (!controllerActive)
             return;
+
 
         // Controller NAVIGATION LOGIC
         var r = nav[currentIndex];
@@ -139,19 +145,13 @@ public class UILevelManager : MonoBehaviour
     // Called when mouse has moved
     private void OnMouseMoved(MouseMoveEvent evt)
     {
-        Vector2 pos = evt.mousePosition;
-
-        if ((pos - lastMousePos).sqrMagnitude > mouseMoveThreshold * mouseMoveThreshold)
+        if ((evt.mousePosition - lastMouse).sqrMagnitude > 1f)
         {
-            if (controllerActive)
-            {
-                controllerActive = false;
-                ShowMouse();
-                RemoveControllerFocus();
-            }
+            controllerActive = false;
+            UnityEngine.Cursor.visible = true;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
         }
-
-        lastMousePos = pos;
+        lastMouse = evt.mousePosition;
     }
     private void HideMouse()
     {
@@ -252,6 +252,8 @@ public class UILevelManager : MonoBehaviour
     {
         Debug.Log($"Loading Level {levelNumber}");
         GameManager.Instance.LoadLevel(levelNumber);
+        gameObject.SetActive(false);
+
         HUD.SetActive(true);
     }
     // Navigation is used to move around the level system with a controller,

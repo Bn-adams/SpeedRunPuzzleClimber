@@ -38,7 +38,6 @@ public class PlayerInput : MonoBehaviour
 
     [Header("Player Settings")]
     [SerializeField] private bool invertGrippingInput = true;
-    [SerializeField] private bool hasFinished = false;
     [SerializeField] private float handMoveSpeed = 100;
     [SerializeField] private float maxVelocity = 25f;
     [SerializeField] private float maxLinearDampening = 1;
@@ -92,18 +91,18 @@ public class PlayerInput : MonoBehaviour
         {
             _playerManager.spawnManager.SpawnPlayer();
         }
-        //if (gamepad.buttonEast.wasPressedThisFrame)
-        //{
-        //    currentCheckpoint = Vector2.zero;
-        //    SpawnPlayer();
-        //}
-        //if (gamepad.buttonSouth.wasPressedThisFrame && hasFinished)
-        //{
-        //    currentCheckpoint = Vector2.zero;
-        //    hasFinished = false;
-        //    OpenMenu();
-        //}
-        //if (gamepad.startButton.wasPressedThisFrame) OpenMenu();
+        if (gamepad.buttonEast.wasPressedThisFrame)
+        {
+            _playerManager.spawnManager.currentCheckpoint = Vector2.zero;
+            _playerManager.spawnManager.SpawnPlayer();
+        }
+        if (gamepad.buttonSouth.wasPressedThisFrame && _playerManager.hasFinished)
+        {
+            _playerManager.spawnManager.currentCheckpoint = Vector2.zero;
+            _playerManager.hasFinished = false;
+            _playerManager.OpenMenu();
+        }
+        if (gamepad.startButton.wasPressedThisFrame) _playerManager.OpenMenu();
     }
     private void Update()
     {
