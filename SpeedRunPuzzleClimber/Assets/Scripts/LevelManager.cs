@@ -15,6 +15,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadLevel(int index)
     {
+        Debug.Log("attempt load");
+
         // Validation
         if (index < 0 || index >= levelPrefabs.Length)
         {
@@ -22,8 +24,8 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        if (index == currentLevelIndex)
-            return;
+        //if (index == currentLevelIndex)
+        //    return;
 
         // Remove current level and load new
         UnloadCurrentLevel();
@@ -31,7 +33,7 @@ public class LevelManager : MonoBehaviour
         currentLevelInstance = Instantiate(levelPrefabs[index]);
         currentLevelIndex = index;
 
-        Debug.Log($"[LevelManager] (SP) Loaded Level {index}");
+        Debug.Log($"[LevelManager] Loaded Level {index}");
     }
 
     public void UnloadCurrentLevel()

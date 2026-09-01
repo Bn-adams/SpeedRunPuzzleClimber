@@ -5,7 +5,23 @@ public class GripCollider : MonoBehaviour
 {
     [SerializeField] private PlayerManager _playerMovement;
 
-   
+    private void IsBreaker(Collider collider, bool isGripping)
+    {
+        HoldBreaker holdBreaker = collider.gameObject.GetComponent<HoldBreaker>();
+        if (holdBreaker != null)
+        {
+            holdBreaker.GetPlayerReference(_playerMovement);
+            if (isGripping)
+            {
+                holdBreaker.OnCollision();
+            }
+
+            else
+            {
+                holdBreaker.EndLGrip();
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider collider)
     {
@@ -26,16 +42,19 @@ public class GripCollider : MonoBehaviour
         if (collider.gameObject.CompareTag("Jug"))
         {
             _playerMovement.CanGripJug = true;
+            IsBreaker(collider, true);
         }
         if (collider.gameObject.CompareTag("Crimp"))
         {
             _playerMovement.CanGripCrimp = true;
-            //IsBreaker(collider, true, true);
+            IsBreaker(collider, true);
+
         }
         if (collider.gameObject.CompareTag("Pocket"))
         {
             _playerMovement.CanGripPocket = true;
-            //IsBreaker(collider, true, true);
+            IsBreaker(collider, true);
+
         }
     }
 
@@ -53,17 +72,20 @@ public class GripCollider : MonoBehaviour
         if (collider.gameObject.CompareTag("Jug"))
         {
             _playerMovement.CanGripJug = false;
-            //IsBreaker(collider, true, false);
+            IsBreaker(collider, false);
+
         }
         if (collider.gameObject.CompareTag("Crimp"))
         {
             _playerMovement.CanGripCrimp = false;
-            //IsBreaker(collider, true, false);
+            IsBreaker(collider, false);
+
         }
         if (collider.gameObject.CompareTag("Pocket"))
         {
             _playerMovement.CanGripPocket = false;
-            //IsBreaker(collider, true, false);
+            IsBreaker(collider, false);
+
         }
     }
 }

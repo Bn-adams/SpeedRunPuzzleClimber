@@ -21,7 +21,7 @@ public class HUDManager : MonoBehaviour
         root = GetComponent<UIDocument>().rootVisualElement;
 
         level = root.Q<Label>("Level");
-        //level.text = "Level #" + GameManager.Instance.GetCurrentLevel();
+        level.text = "Level #" + GameManager.Instance.GetCurrentLevel();
         if (PlayerDataManager.Instance.GetSingleLevelTime(12) > 0)
         {
             BTD = root.Q<Label>("BTD");

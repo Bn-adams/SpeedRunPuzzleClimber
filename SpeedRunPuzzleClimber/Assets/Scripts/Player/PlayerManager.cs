@@ -10,7 +10,7 @@ using UnityEngine.InputSystem.HID;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerManager : MonoBehaviour
 {
-    private HUDManager _hudManager;
+    [SerializeField] private HUDManager _hudManager;
 
     public JointManager jointManager;
     public SpawnManager spawnManager;
@@ -84,12 +84,20 @@ public class PlayerManager : MonoBehaviour
             timerManager.isTimerRunning = false;
             float timeDif = timerManager.timeElapsed - GameManager.Instance.GetCurrentLevelBestTime();
             _hudManager = FindAnyObjectByType<HUDManager>();
-            _hudManager.OnFinish(timeDif, GameManager.Instance.GetCurrentLevelBestTime());
+            if (_hudManager != null) _hudManager.OnFinish(timeDif, GameManager.Instance.GetCurrentLevelBestTime());
 
 
             Debug.Log("Best Time: " + GameManager.Instance.GetCurrentLevelBestTime());
             GameManager.Instance.setCurrentLevelTime(timerManager.timeElapsed);
             Debug.Log("Time: " + timerManager.timeElapsed + ((timeDif > 0) ? " Time difference from best: +" : " Time difference from best: ") + timeDif);
         }
+    }
+
+    public void OpenMenu()
+    {
+        spawnManager.currentCheckpoint = Vector2.zero;
+        spawnManager.SpawnPlayer();
+        GameManager.Instance.SetUI(true);
+        _hudManager.gameObject.SetActive(false);
     }
 }

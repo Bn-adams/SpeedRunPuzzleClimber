@@ -6,10 +6,11 @@ using UnityEngine.UIElements;
 public class UIMainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject LevelSelector;
+    [SerializeField] private GameObject settingsMenu;
     private VisualElement root;
 
-    // buttons are named "0", "1", "2", "3"
-    private readonly int firstIndex = 1;  // initial focus → Start button
+    
+    private readonly int firstIndex = 1; 
 
     private List<Button> buttons = new List<Button>();
     private int current = 1;
@@ -172,7 +173,8 @@ public class UIMainMenu : MonoBehaviour
 
     private void OpenSettings()
     {
-        Debug.Log("SETTINGS");
+        settingsMenu.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 
     private void OpenHowToPlay()

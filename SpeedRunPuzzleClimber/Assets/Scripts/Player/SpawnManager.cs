@@ -55,12 +55,9 @@ public class SpawnManager : MonoBehaviour
         IsRespawning = true;
         _playerManager.ResetGrips();
 
-        if (!HUD.activeSelf)
-        {
-            HUD.SetActive(true);
-        }
+        
         _hudManager = FindAnyObjectByType<HUDManager>();
-        _hudManager.ResetHUD();
+        if (_hudManager != null) _hudManager.ResetHUD();
 
 
         _playerManager.bodyRB.linearVelocity = Vector3.zero;

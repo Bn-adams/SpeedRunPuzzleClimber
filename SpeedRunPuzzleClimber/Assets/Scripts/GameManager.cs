@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     public void LoadLevel(int index)
     {
         levelManager.LoadLevel(index);
+        _playerManager.spawnManager.SpawnPlayer();
     }
 
     public void Reloadlevel()
