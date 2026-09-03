@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(PlayerManager))]
 public class PlayerInput : MonoBehaviour
@@ -22,7 +23,10 @@ public class PlayerInput : MonoBehaviour
     private Vector2 leftStick;
     private Vector2 rightStick;
 
-    private bool _leftStickInUse = true;
+    private Vector2 swingStick;
+    private Vector2 dashStick;
+
+    [SerializeField] private bool _leftStickInUse = true;
 
     // Dead zones
     private float triggerDeadZone = 0.1f;
@@ -50,13 +54,39 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float vibrationStrengthLowFrequency = 0.05f;
     [SerializeField] private float vibrationStrengthHighFrequency = 0.1f;
 
+    [Header("Dash")]
+    [SerializeField] private bool hasDashed = false;
+    [SerializeField] private float dashPower = 10;
+    [SerializeField] private float dashDuration = 1;
+
+    [SerializeField] private float gripReleaseDash = 0.2f;
+
+
+
     [Header("Joystick Gripping Settings")]
-    [SerializeField] float forceMultiplier = 15f;
+    //[SerializeField] float forceMultiplier = 15f;
     [SerializeField] float downThreshold = -0.85f;        // Stick must be this downward to apply following settings
     [SerializeField] float singleHandUpwardBoost = 2f; // Force multiplier on y axis when going straight up
     [SerializeField] float doubleHandedUpwardBoost = 1.4f;
     [SerializeField] float horizontalDamping = 1;      // Force dampener on x axis when going straight up
     [SerializeField] float swingDampening = 0.98f;        // The rate which the x axis linear velocity multiplies by on fixed update
+
+
+    [Header("Joystick Gripping Settings")]
+
+    [SerializeField] float forceMultiplier = 10f;
+    [SerializeField] float initialAccelerationBoost = 20f;
+    [SerializeField] float boostFadeSpeed = 5f;
+    [SerializeField] float maxSwingSpeed = 15f;
+
+
+    [Header("Player stats")]
+
+    [SerializeField] float speed;
+    [SerializeField] float boost;
+    [SerializeField] float acceleration;
+
+
 
     private void Awake()
     {
@@ -78,8 +108,17 @@ public class PlayerInput : MonoBehaviour
         // Read joystick values
         leftStick = gamepad.leftStick.ReadValue();
         rightStick = gamepad.rightStick.ReadValue();
-        if (rightStick != Vector2.zero) _leftStickInUse = false;
-        else _leftStickInUse = true;
+
+        if (_leftStickInUse)
+        {
+            swingStick = leftStick;
+            dashStick = rightStick;
+        }
+        else
+        {
+            swingStick = rightStick;
+            dashStick = leftStick;
+        }
 
         leftTrigger = gamepad.leftTrigger.ReadValue();
         rightTrigger = gamepad.rightTrigger.ReadValue();
@@ -107,54 +146,93 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         InitializeGamepad();
-        ControllerMovement();
+        ControllerMovement(swingStick);
         GrippingLogic();
+        DashInputDetection();
     }
     private void FixedUpdate()
     {
         GrippedHandMovement();
     }
+    private void DashInputDetection()
+    {
+        if (rightStick != Vector2.zero && !hasDashed)
+        {
+            hasDashed = true;
+            _bodyRB.AddForce(dashStick.normalized * dashPower, ForceMode.Impulse);
+        }
+        
+        if (rightStick == Vector2.zero)
+        {
+            hasDashed = false;
+        }
+    }
 
+    
+
+    
 
     private void GrippedHandMovement()
     {
         if (!_playerManager.isGripping) return;
 
-        if (_leftStickInUse) GrippedBodyMovement(leftStick);
-        else GrippedBodyMovement(rightStick);
+        GrippedBodyMovement(swingStick);
     }
 
     
     private void GrippedBodyMovement(Vector2 joyStick)
     {
-        // If stick is pushed downward
-        if ((invertGrippingInput && joyStick.y < downThreshold) || (!invertGrippingInput && joyStick.y > -downThreshold))
-        {
+        //// If stick is pushed downward
+        //if ((invertGrippingInput && joyStick.y < downThreshold) || (!invertGrippingInput && joyStick.y > -downThreshold))
+        //{
 
-            joyStick.x *= horizontalDamping;
+        //    joyStick.x *= horizontalDamping;
 
-            // Gradually dampen swinging
-            Vector3 bodyVelocity = _bodyRB.linearVelocity;
-            bodyVelocity.x *= swingDampening;
-            _bodyRB.linearVelocity = bodyVelocity;
-        }
+        //    // Gradually dampen swinging
+        //    Vector3 bodyVelocity = _bodyRB.linearVelocity;
+        //    bodyVelocity.x *= swingDampening;
+        //    _bodyRB.linearVelocity = bodyVelocity;
+        //}
+        
+
 
         // Apply force
-        if (invertGrippingInput) _bodyRB.AddForce(-joyStick * forceMultiplier, ForceMode.Acceleration);
-        else _bodyRB.AddForce(joyStick * forceMultiplier, ForceMode.Acceleration);
+        //if (invertGrippingInput) _bodyRB.AddForce(-joyStick * forceMultiplier, ForceMode.Acceleration);
+        //else _bodyRB.AddForce(joyStick * forceMultiplier, ForceMode.Acceleration);
+
+
+
+        if (joyStick == Vector2.zero)
+        {
+            _bodyRB.linearVelocity *= swingDampening;
+        }
+
+        Vector2 forceDirection =
+            invertGrippingInput ? -joyStick : joyStick;
+
+        speed = _bodyRB.linearVelocity.magnitude;
+
+        boost = Mathf.Clamp01(
+            1f - speed / boostFadeSpeed
+        );
+
+        acceleration =
+            forceMultiplier +
+            initialAccelerationBoost * boost;
+
+        if (speed < maxSwingSpeed)
+        {
+            _bodyRB.AddForce(
+                forceDirection * acceleration,
+                ForceMode.Acceleration
+            );
+        }
+   
+
     }
     // Move hand based on joystick input and handle gripping
-    private void ControllerMovement()
+    private void ControllerMovement(Vector2 stick)
     {
-        Vector2 stick;
-        if (_leftStickInUse)
-        {
-            stick = leftStick;
-        }
-        else
-        {
-            stick = rightStick;
-        }
 
         if (!_playerManager.isGripping)
         {
@@ -224,9 +302,15 @@ public class PlayerInput : MonoBehaviour
     }
     private void OnGripRelease()
     {
-        L_hasVibrated = false;
-        _playerManager.isGripping = false;
-        _handRB.constraints = RigidbodyConstraints.None;
+        if (_playerManager.isGripping == true)
+        {
+            Debug.Log(_bodyRB.linearVelocity);
+            _bodyRB.AddForce(_bodyRB.linearVelocity * gripReleaseDash, ForceMode.Impulse);
+
+            L_hasVibrated = false;
+            _playerManager.isGripping = false;
+            _handRB.constraints = RigidbodyConstraints.None;
+        }
     }
 
     private IEnumerator DoGripVibration()

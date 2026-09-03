@@ -9,7 +9,7 @@ public class JointManager : MonoBehaviour
 
 
     [Header("Arm and joint settings")]
-    [SerializeField] private float armLength;
+    private float armLength;
     [SerializeField] private float jointBreakingSensitivity = 0.99f;
     [SerializeField] private bool springEnabled = false;
     [SerializeField] private float jointSpring = 500f;
