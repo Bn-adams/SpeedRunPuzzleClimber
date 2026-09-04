@@ -304,7 +304,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (_playerManager.isGripping == true)
         {
-            Debug.Log(_bodyRB.linearVelocity);
+            //Debug.Log(_bodyRB.linearVelocity);
             _bodyRB.AddForce(_bodyRB.linearVelocity * gripReleaseDash, ForceMode.Impulse);
 
             L_hasVibrated = false;
