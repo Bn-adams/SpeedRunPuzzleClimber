@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(PlayerManager))]
 public class PlayerInput : MonoBehaviour
