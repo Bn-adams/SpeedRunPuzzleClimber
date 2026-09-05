@@ -8,6 +8,8 @@ public class PlayerInput : MonoBehaviour
     private PlayerManager _playerManager;
 
 
+    [SerializeField] GameObject sparkHalo;
+
     private Rigidbody _bodyRB;
     private Rigidbody _handRB;
 
@@ -144,9 +146,9 @@ public class PlayerInput : MonoBehaviour
     }
     private void Update()
     {
+        GrippingLogic();
         InitializeGamepad();
         ControllerMovement(swingStick);
-        GrippingLogic();
         DashInputDetection();
     }
     private void FixedUpdate()
@@ -292,18 +294,25 @@ public class PlayerInput : MonoBehaviour
         }
         if (!L_hasVibrated && vibrationEnabled)
         {
+            _playerManager.isGripping = true;
+            _handRB.constraints = RigidbodyConstraints.FreezeAll;
+
+            _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
+            _playerManager.particleManager.InstantiateBodySpark(_bodyRB.transform);
+
+
             L_hasVibrated = true;
             if (GripVibrationCoroutine != null) StopCoroutine(GripVibrationCoroutine);
             GripVibrationCoroutine = StartCoroutine(DoGripVibration());
         }
-        _playerManager.isGripping = true;
-        _handRB.constraints = RigidbodyConstraints.FreezeAll;
+        
     }
     private void OnGripRelease()
     {
         if (_playerManager.isGripping == true)
         {
-            Debug.Log(_bodyRB.linearVelocity);
+            //_playerManager.particleManager.InstantiateBodySpark(_bodyRB.transform);
+            //Debug.Log(_bodyRB.linearVelocity);
             _bodyRB.AddForce(_bodyRB.linearVelocity * gripReleaseDash, ForceMode.Impulse);
 
             L_hasVibrated = false;

@@ -10,6 +10,22 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private HUDManager _hudManager;
 
+
+    public ParticleManager particleManager;
+    //[SerializeField] private float divideScaler = 30;
+
+    [SerializeField] float divideScaler = 30;
+
+    private float playerSpeedScaler;
+
+    public float PlayerSpeedScaler
+    {
+        get { return bodyRB.linearVelocity.magnitude / divideScaler; }
+        set { playerSpeedScaler = value; }
+    }
+
+
+
     public JointManager jointManager;
     public SpawnManager spawnManager;
     public TimerManager timerManager;
@@ -52,6 +68,7 @@ public class PlayerManager : MonoBehaviour
         spawnManager = GetComponent<SpawnManager>();
         timerManager = GetComponent<TimerManager>();
         playerInput = GetComponent<PlayerInput>();
+        particleManager = FindAnyObjectByType<ParticleManager>();
     }
     private void Start()
     {
