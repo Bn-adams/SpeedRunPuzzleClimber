@@ -55,7 +55,9 @@ public class SpawnManager : MonoBehaviour
         IsRespawning = true;
         _playerManager.ResetGrips();
 
-        
+
+        _playerManager.particleManager.CleartAllParticles();
+
         _hudManager = FindAnyObjectByType<HUDManager>();
         if (_hudManager != null) _hudManager.ResetHUD();
 
