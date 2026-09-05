@@ -29622,6 +29622,7 @@ GameObject:
   - component: {fileID: 7212706696028377879}
   - component: {fileID: 5116464034045942128}
   - component: {fileID: 7391290461971191469}
+  - component: {fileID: 6815905075130189637}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -29719,6 +29720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sparkHalo: {fileID: 7571460442625638368, guid: 1b7b0fc283278c642a5b4e40030feb3f, type: 3}
+  fireWhooshSFX: {fileID: 4630498488466484917, guid: 958e068ae81e7d941b8e64de7569276d, type: 3}
   _leftStickInUse: 1
   invertGrippingInput: 1
   handMoveSpeed: 200
@@ -29773,7 +29775,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ParticleManager
   sparkHalo: {fileID: 7571460442625638368, guid: 1b7b0fc283278c642a5b4e40030feb3f, type: 3}
   bodySpark: {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc, type: 3}
+  whooshSFX: {fileID: 1174878288687392686, guid: 39094c766413c944a9cd88c5d961cccd, type: 3}
   fireParticle: {fileID: 4282857841902503284}
+--- !u!114 &6815905075130189637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8624595777870602743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3782ef06b545c4b45b81e305dfd1f9f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DecelerationDector
+  decelerationThreshold: 250
 --- !u!1 &8965825007146619379
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour
 
 
     [SerializeField] GameObject sparkHalo;
+    [SerializeField] GameObject fireWhooshSFX;
 
     private Rigidbody _bodyRB;
     private Rigidbody _handRB;
@@ -298,8 +299,12 @@ public class PlayerInput : MonoBehaviour
             _playerManager.isGripping = true;
             _handRB.constraints = RigidbodyConstraints.FreezeAll;
 
+
+            // Particles 
             _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
-            _playerManager.particleManager.InstantiateBodySpark(_bodyRB.transform);
+
+            // Sound FX
+            Instantiate(fireWhooshSFX);
 
 
             L_hasVibrated = true;
