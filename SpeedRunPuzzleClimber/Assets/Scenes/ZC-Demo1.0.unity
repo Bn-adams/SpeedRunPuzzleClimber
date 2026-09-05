@@ -1442,35 +1442,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8742642344554786905, guid: c548fd9308073e149af8fdb78d0106be, type: 3}
   m_PrefabInstance: {fileID: 1815423774}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1403588048 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8624595777870602743, guid: e9bedeb8d885abe44bec1ba671586d70, type: 3}
-  m_PrefabInstance: {fileID: 1421193057}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1403588053 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8599798501128655552, guid: e9bedeb8d885abe44bec1ba671586d70, type: 3}
   m_PrefabInstance: {fileID: 1421193057}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403588048}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05b4326bbc62e04468a9e9235ac91b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerManager
---- !u!114 &1403588056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403588048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3782ef06b545c4b45b81e305dfd1f9f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DecelerationDector
-  decelerationThreshold: 250
 --- !u!1001 &1421193057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1519,18 +1501,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7212706696028377879, guid: e9bedeb8d885abe44bec1ba671586d70, type: 3}
-      propertyPath: fireWhooshSFX
-      value: 
-      objectReference: {fileID: 4630498488466484917, guid: 958e068ae81e7d941b8e64de7569276d, type: 3}
-    - target: {fileID: 7212706696028377879, guid: e9bedeb8d885abe44bec1ba671586d70, type: 3}
-      propertyPath: _leftStickInUse
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7391290461971191469, guid: e9bedeb8d885abe44bec1ba671586d70, type: 3}
-      propertyPath: whooshSFX
-      value: 
-      objectReference: {fileID: 1174878288687392686, guid: 39094c766413c944a9cd88c5d961cccd, type: 3}
     - target: {fileID: 8624595777870602743, guid: e9bedeb8d885abe44bec1ba671586d70, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1538,10 +1508,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8624595777870602743, guid: e9bedeb8d885abe44bec1ba671586d70, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1403588056}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9bedeb8d885abe44bec1ba671586d70, type: 3}
 --- !u!4 &1452113648 stripped
 Transform:
