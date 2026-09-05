@@ -7,6 +7,7 @@ public class ParticleManager : MonoBehaviour
 
     [SerializeField] private GameObject bodySpark;
 
+    [SerializeField] private GameObject whooshSFX;
 
 
     [SerializeField] private ParticleSystem fireParticle;
@@ -24,5 +25,6 @@ public class ParticleManager : MonoBehaviour
     public void InstantiateBodySpark(Transform transform)
     {
         Instantiate(bodySpark, transform);
+        Instantiate(whooshSFX);
     }
 }
