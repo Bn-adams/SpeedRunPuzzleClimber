@@ -8,7 +8,7 @@ public class Dyno : MonoBehaviour
     [SerializeField] private float playerVelocity;
     [SerializeField] private float playerScaledVelocity;
 
-    [SerializeField] private bool dynoed = false;
+    [SerializeField] public bool dynoed = false;
     [SerializeField] private float dynoEnterAmount = 0.5f;
     [SerializeField] private float dynoExitAmount = 0.2f;
 
@@ -39,6 +39,7 @@ public class Dyno : MonoBehaviour
         {
             dynoed = true;
             _shineParticle = Instantiate(shineParticlePrefab, _playerManager.bodyRB.transform);
+            _playerManager.cameraShake.Shake();
             Instantiate(dynoRingParticlePrefab, _playerManager.bodyRB.transform);
             Instantiate(dynoSoundPrefab);
         }
