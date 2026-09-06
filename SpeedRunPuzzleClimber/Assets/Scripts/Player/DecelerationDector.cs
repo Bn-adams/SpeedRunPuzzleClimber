@@ -48,6 +48,6 @@ public class DecelerationDector : MonoBehaviour
     {
         Debug.Log("Sudden deceleration detected!");
         _playerManager.particleManager.InstantiateBodySpark(_playerManager.bodyRB.transform);
-
+        //_playerManager.camerashackthatbooty.shakethegeez();
     }
 }
