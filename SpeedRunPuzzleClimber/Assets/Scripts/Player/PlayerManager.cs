@@ -8,6 +8,7 @@ using UnityEngine.InputSystem.HID;
 [RequireComponent(typeof(SpawnManager))]
 [RequireComponent(typeof(TimerManager))]
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(Dyno))]
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private HUDManager _hudManager;
@@ -16,15 +17,15 @@ public class PlayerManager : MonoBehaviour
     public ParticleManager particleManager;
     //[SerializeField] private float divideScaler = 30;
 
-    [SerializeField] float divideScaler = 30;
-
-    private float playerSpeedScaler;
+    [SerializeField] public float divideScaler = 30;
 
     public float PlayerSpeedScaler
     {
         get { return bodyRB.linearVelocity.magnitude / divideScaler; }
-        set { playerSpeedScaler = value; }
     }
+
+    [SerializeField] public float playerVelocity;
+    [SerializeField] public float playerScaledVelocity;
 
 
 
@@ -32,6 +33,8 @@ public class PlayerManager : MonoBehaviour
     public SpawnManager spawnManager;
     public TimerManager timerManager;
     public PlayerInput playerInput;
+    public CameraShake cameraShake;
+    public Dyno dyno;
 
     [Header("Rigidbodys")]
     public Rigidbody bodyRB;
@@ -71,6 +74,8 @@ public class PlayerManager : MonoBehaviour
         timerManager = GetComponent<TimerManager>();
         playerInput = GetComponent<PlayerInput>();
         particleManager = FindAnyObjectByType<ParticleManager>();
+        cameraShake = FindAnyObjectByType<CameraShake>();
+        dyno = GetComponent<Dyno>();
     }
     private void Start()
     {
@@ -80,6 +85,9 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         jointManager.JointChecking();
+
+        playerVelocity = bodyRB.linearVelocity.magnitude;
+        playerScaledVelocity = bodyRB.linearVelocity.magnitude / divideScaler;
     }
 
     public void ResetGrips()
@@ -97,6 +105,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (!hasFinished)
         {
+            ResetGrips();
             hasFinished = true;
             timerManager.isTimerRunning = false;
             float timeDif = timerManager.timeElapsed - GameManager.Instance.GetCurrentLevelBestTime();

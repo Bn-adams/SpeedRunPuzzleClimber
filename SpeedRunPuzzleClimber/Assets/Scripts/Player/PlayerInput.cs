@@ -53,9 +53,13 @@ public class PlayerInput : MonoBehaviour
     // Vibration
     private Coroutine GripVibrationCoroutine;
     [SerializeField] private bool vibrationEnabled = true;
-    [SerializeField] private float vibrationDuration = 0.05f;
-    [SerializeField] private float vibrationStrengthLowFrequency = 0.05f;
-    [SerializeField] private float vibrationStrengthHighFrequency = 0.1f;
+    [SerializeField] private float gripVibrationDuration = 0.05f;
+    [SerializeField] private float gripVibrationStrengthLowFrequency = 0.05f;
+    [SerializeField] private float gripVibrationStrengthHighFrequency = 0.1f;
+    [SerializeField] private float decelerationVibrationDuration = 0.05f;
+    [SerializeField] private float decelerationVibrationStrengthLowFrequency = 0.1f;
+    [SerializeField] private float decelerationVibrationStrengthHighFrequency = 0.2f;
+
 
     [Header("Dash")]
     [SerializeField] private bool hasDashed = false;
@@ -148,9 +152,9 @@ public class PlayerInput : MonoBehaviour
     }
     private void Update()
     {
-        GrippingLogic();
         InitializeGamepad();
         ControllerMovement(swingStick);
+        GrippingLogic();
         DashInputDetection();
     }
     private void FixedUpdate()
@@ -317,8 +321,9 @@ public class PlayerInput : MonoBehaviour
     {
         if (_playerManager.isGripping == true)
         {
-            //_playerManager.particleManager.InstantiateBodySpark(_bodyRB.transform);
-            //Debug.Log(_bodyRB.linearVelocity);
+            _playerManager.dyno.StartDyno();
+
+
             _bodyRB.AddForce(_bodyRB.linearVelocity * gripReleaseDash, ForceMode.Impulse);
 
             L_hasVibrated = false;
@@ -329,12 +334,21 @@ public class PlayerInput : MonoBehaviour
 
     private IEnumerator DoGripVibration()
     {
-        Gamepad.current.SetMotorSpeeds(vibrationStrengthLowFrequency, vibrationStrengthHighFrequency);
-        yield return new WaitForSeconds(vibrationDuration);
+        if (!vibrationEnabled) yield break;
+        Gamepad.current.SetMotorSpeeds(gripVibrationStrengthLowFrequency, gripVibrationStrengthHighFrequency);
+        yield return new WaitForSeconds(gripVibrationDuration);
         Gamepad.current.SetMotorSpeeds(0, 0);
     }
 
-    
+    public IEnumerator DoDecelerationVibration()
+    {
+        if (!vibrationEnabled) yield break;
+        Gamepad.current.SetMotorSpeeds(decelerationVibrationStrengthLowFrequency, decelerationVibrationStrengthHighFrequency);
+        yield return new WaitForSeconds(decelerationVibrationDuration);
+        Gamepad.current.SetMotorSpeeds(0, 0);
+    }
+
+
 
     private void Finish()
     {
