@@ -10,12 +10,12 @@ public class AudioAutoDestroy : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        StartCoroutine(DestroySelf(audioSource.clip.length));
+        StartCoroutine(DestroySelf());
     }
 
-    private IEnumerator DestroySelf(float time)
+    private IEnumerator DestroySelf()
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(audioSource.clip.length);
         Destroy(gameObject);
     }
 }

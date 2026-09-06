@@ -6,9 +6,11 @@ public class DynamicAudioFire : MonoBehaviour
 
     [SerializeField] AudioSource _roaringFire;
 
-    [SerializeField] float min = 0.1f;
-    [SerializeField] float max = 1f;
+    [SerializeField] float minVolume = 0.1f;
+    [SerializeField] float maxVolume = 1f;
 
+    [SerializeField] float minPitch = 0.85f;
+    [SerializeField] float maxPitch = 1.15f;
     private void Awake()
     {
         _playerManager = FindAnyObjectByType<PlayerManager>();
@@ -16,6 +18,7 @@ public class DynamicAudioFire : MonoBehaviour
 
     private void Update()
     {
-        _roaringFire.volume = Mathf.Lerp(min, max, _playerManager.PlayerSpeedScaler);
+        _roaringFire.volume = Mathf.Lerp(minVolume, maxVolume, _playerManager.PlayerSpeedScaler);
+        _roaringFire.pitch = Mathf.Lerp(minPitch, maxPitch, _playerManager.PlayerSpeedScaler);
     }
 }

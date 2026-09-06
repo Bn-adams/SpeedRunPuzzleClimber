@@ -9427,6 +9427,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6298530662132479123}
+  - component: {fileID: 9041691507493846764}
   - component: {fileID: 5484678033229174232}
   - component: {fileID: 2808532700918344380}
   - component: {fileID: 6744151389617338890}
@@ -9452,6 +9453,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3655072293577533414}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9041691507493846764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422997115139310994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9c23f50d9f7d84880b87cd0e719628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicCamera
+  _camera: {fileID: 5484678033229174232}
+  minZoom: 11
+  maxZoom: 18
+  zoomSpeed: 1.02
 --- !u!20 &5484678033229174232
 Camera:
   m_ObjectHideFlags: 0
@@ -9487,7 +9504,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 21
+  orthographic size: 18.31
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -29661,7 +29678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hudManager: {fileID: 0}
   particleManager: {fileID: 0}
-  divideScaler: 30
+  divideScaler: 40
   jointManager: {fileID: 0}
   spawnManager: {fileID: 0}
   timerManager: {fileID: 0}
