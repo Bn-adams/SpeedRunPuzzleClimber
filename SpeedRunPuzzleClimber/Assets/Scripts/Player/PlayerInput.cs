@@ -36,8 +36,7 @@ public class PlayerInput : MonoBehaviour
     private float joystickDeadZone = 0.2f;
 
     // Viberation
-    private bool L_hasVibrated;
-    private bool R_hasVibrated;
+    public bool hasVibrated;
 
     // -- Taken from PlayerManager
     private float armLength;
@@ -298,9 +297,10 @@ public class PlayerInput : MonoBehaviour
             _bodyRB.constraints = RigidbodyConstraints.FreezePositionZ;
             _bodyRB.constraints = RigidbodyConstraints.FreezeRotation;
         }
-        if (!L_hasVibrated && vibrationEnabled)
+        if (!hasVibrated && vibrationEnabled)
         {
             _playerManager.isGripping = true;
+            _playerManager.gripPoint = _playerManager.handRB.transform.position;
             _handRB.constraints = RigidbodyConstraints.FreezeAll;
 
 
@@ -311,7 +311,7 @@ public class PlayerInput : MonoBehaviour
             Instantiate(fireWhooshSFX);
 
 
-            L_hasVibrated = true;
+            hasVibrated = true;
             if (GripVibrationCoroutine != null) StopCoroutine(GripVibrationCoroutine);
             GripVibrationCoroutine = StartCoroutine(DoGripVibration());
         }
@@ -326,7 +326,7 @@ public class PlayerInput : MonoBehaviour
 
             _bodyRB.AddForce(_bodyRB.linearVelocity * gripReleaseDash, ForceMode.Impulse);
 
-            L_hasVibrated = false;
+            hasVibrated = false;
             _playerManager.isGripping = false;
             _handRB.constraints = RigidbodyConstraints.None;
         }
