@@ -56,6 +56,7 @@ public class PlayerManager : MonoBehaviour
 
     // Gripping
     public bool isGripping;
+    public Vector3 gripPoint;
 
     // Grip types
     public bool CanGripFinish { get; set; }
@@ -92,6 +93,7 @@ public class PlayerManager : MonoBehaviour
 
     public void ResetGrips()
     {
+        playerInput.hasVibrated = false;
         isGripping = false;
         CanGripFinish = false;
         CanGripCheckpoint = false;
@@ -101,11 +103,14 @@ public class PlayerManager : MonoBehaviour
         CanGripBreaker = false;
 
     }
+    public void SetGripPoint()
+    {
+        handRB.transform.position = gripPoint;
+    }
     public void Finish()
     {
         if (!hasFinished)
         {
-            ResetGrips();
             hasFinished = true;
             timerManager.isTimerRunning = false;
             float timeDif = timerManager.timeElapsed - GameManager.Instance.GetCurrentLevelBestTime();
@@ -124,6 +129,6 @@ public class PlayerManager : MonoBehaviour
         spawnManager.currentCheckpoint = Vector2.zero;
         spawnManager.SpawnPlayer();
         GameManager.Instance.SetUI(true);
-        _hudManager.gameObject.SetActive(false);
+        if (_hudManager != null) _hudManager.gameObject.SetActive(false);
     }
 }

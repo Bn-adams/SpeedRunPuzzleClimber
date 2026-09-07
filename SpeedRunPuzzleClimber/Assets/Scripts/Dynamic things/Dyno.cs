@@ -49,11 +49,16 @@ public class Dyno : MonoBehaviour
     {
         if (playerScaledVelocity < dynoExitAmount && dynoed)
         {
-
             dynoed = false;
             _shineParticle.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
-            //lightbean2.Stop();
-            //lightbean3.Stop();
+        }
+    }
+    public void ForceEndDyno()
+    {
+        dynoed = false;
+        if (_shineParticle != null)
+        {
+            _shineParticle.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
     }
 }
