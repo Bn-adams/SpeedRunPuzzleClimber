@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2226902264223642577}
   m_Layer: 0
   m_Name: FBCrimpL_03
-  m_TagString: Crimp
+  m_TagString: Jug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,6 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45162654e903b7c4bb4b7ae825159ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _particleSystem: {fileID: 0}
   gripTime: 0.75
   disableDuration: 1
   fadedOpacity: 0.4

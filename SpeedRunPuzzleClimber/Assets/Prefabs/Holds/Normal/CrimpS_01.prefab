@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4108479569688862738}
   m_Layer: 0
   m_Name: CrimpS_01
-  m_TagString: Crimp
+  m_TagString: Jug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
