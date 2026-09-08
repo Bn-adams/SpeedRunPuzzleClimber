@@ -4,6 +4,7 @@ using System.Collections;
 public class HoldBreaker : MonoBehaviour
 {
     private PlayerManager _playerManager;
+    [SerializeField] private ParticleSystem _particleSystem;
 
     private int holdIndex = -1;
 
@@ -56,6 +57,8 @@ public class HoldBreaker : MonoBehaviour
 
                 timerRunning = true;
                 gripTimer = 0f;
+
+                if (_particleSystem != null) _particleSystem.Play();
             }
         }
 
