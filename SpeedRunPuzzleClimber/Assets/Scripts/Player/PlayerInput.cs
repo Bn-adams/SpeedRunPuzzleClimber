@@ -8,6 +8,7 @@ public class PlayerInput : MonoBehaviour
 {
     private PlayerManager _playerManager;
 
+    private Camera _camera;
 
     [SerializeField] GameObject sparkHalo;
     [SerializeField] GameObject fireWhooshSFX;
@@ -30,6 +31,18 @@ public class PlayerInput : MonoBehaviour
     private Vector2 dashStick;
 
     [SerializeField] private bool _leftStickInUse = true;
+
+
+    [SerializeField] private bool mouseInUse = false;
+
+    // Mouse & keyboard
+    private Vector2 mouseDelta;
+    [SerializeField] private float mouseSensitivity = 0.01f;
+    private Vector2 mouseWorldPosition;
+    private Vector2 mouseDirection;
+    private Vector2 mouseHandOffset;
+
+    [SerializeField] private float mouseGripSensitivity = 0.02f;
 
     // Dead zones
     private float triggerDeadZone = 0.1f;
@@ -96,10 +109,56 @@ public class PlayerInput : MonoBehaviour
 
     private void Awake()
     {
+        // removes the cursor, may have to tweak this when the ui is back
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+
         _playerManager = GetComponent<PlayerManager>();
+        _camera = Camera.main;
         armLength = _playerManager.armLength;
         _bodyRB = _playerManager.bodyRB;
         _handRB = _playerManager.handRB;
+    }
+    private void Update()
+    {
+        InitializeGamepad();
+        InitializeMouse();
+
+        if (Mouse.current != null && Mouse.current.delta.ReadValue() != Vector2.zero)
+        {
+            mouseInUse = true;
+        }
+
+        if (mouseInUse)
+        {
+            MouseMovement();
+            MouseGrippingLogic();
+        }
+        else
+        {
+            ControllerMovement(swingStick);
+            ControllerGrippingLogic();
+        }
+       
+    }
+    private void FixedUpdate()
+    {
+        GrippedHandMovement();
+    }
+
+    private void GrippedHandMovement()
+    {
+        if (!_playerManager.isGripping) return;
+
+        if (mouseInUse)
+        {
+            MouseGripppedMovement();
+        }
+        else
+        {
+            ControllerGrippedMovement(swingStick);
+        }
     }
     private void InitializeGamepad()
     {
@@ -107,7 +166,7 @@ public class PlayerInput : MonoBehaviour
         var gamepad = Gamepad.current;
         if (gamepad == null)
         {
-            Debug.Log("No controller connected.");
+            mouseInUse = true;
             return;
         }
 
@@ -115,15 +174,24 @@ public class PlayerInput : MonoBehaviour
         leftStick = gamepad.leftStick.ReadValue();
         rightStick = gamepad.rightStick.ReadValue();
 
+        if (leftStick != Vector2.zero)
+        {
+            mouseInUse = false;
+            _leftStickInUse = true;
+        }
+        if (rightStick != Vector2.zero)
+        {
+            mouseInUse = false;
+            _leftStickInUse = false;
+        }
+
         if (_leftStickInUse)
         {
             swingStick = leftStick;
-            dashStick = rightStick;
         }
         else
         {
             swingStick = rightStick;
-            dashStick = leftStick;
         }
 
         leftTrigger = gamepad.leftTrigger.ReadValue();
@@ -149,28 +217,68 @@ public class PlayerInput : MonoBehaviour
         }
         if (gamepad.startButton.wasPressedThisFrame) _playerManager.OpenMenu();
     }
-    private void Update()
+
+    private void InitializeMouse()
     {
-        InitializeGamepad();
-        ControllerMovement(swingStick);
-        GrippingLogic();
-        DashInputDetection();
+        if (Mouse.current == null) return;
+
+        mouseDelta = Mouse.current.delta.ReadValue();
     }
-    private void FixedUpdate()
+    private void MouseMovement()
     {
-        GrippedHandMovement();
+        if (_playerManager.isGripping)
+            return;
+
+        Vector2 movement = mouseDelta * mouseSensitivity;
+
+        mouseHandOffset += movement;
+
+        mouseHandOffset = Vector2.ClampMagnitude(
+            mouseHandOffset,
+            armLength
+        );
+
+        Vector3 targetPos =
+            _bodyRB.transform.position +
+            new Vector3(
+                mouseHandOffset.x,
+                mouseHandOffset.y,
+                0f
+            );
+
+        _handRB.transform.position = targetPos;
     }
-    private void DashInputDetection()
+    private void MouseGrippingLogic()
     {
-        if (rightStick != Vector2.zero && !hasDashed)
+        if (Mouse.current == null)
+            return;
+
+        bool gripPressed = Mouse.current.leftButton.isPressed;
+
+        if (gripPressed)
         {
-            hasDashed = true;
-            _bodyRB.AddForce(dashStick.normalized * dashPower, ForceMode.Impulse);
+            if (_playerManager.CanGripFinish)
+            {
+                OnGrip();
+                Finish();
+            }
+            else if (_playerManager.CanGripCheckpoint)
+            {
+                OnGrip();
+                _playerManager.spawnManager.SetCheckPoint();
+            }
+            else if (_playerManager.CanGripJug)
+            {
+                OnGrip();
+            }
+            else if (!_playerManager.isRespawning)
+            {
+                OnGripRelease();
+            }
         }
-        
-        if (rightStick == Vector2.zero)
+        else
         {
-            hasDashed = false;
+            OnGripRelease();
         }
     }
 
@@ -178,36 +286,60 @@ public class PlayerInput : MonoBehaviour
 
     
 
-    private void GrippedHandMovement()
-    {
-        if (!_playerManager.isGripping) return;
-
-        GrippedBodyMovement(swingStick);
-    }
+    
 
     
-    private void GrippedBodyMovement(Vector2 joyStick)
+    
+    // Move hand based on joystick input and handle gripping
+    private void ControllerMovement(Vector2 stick)
     {
-        //// If stick is pushed downward
-        //if ((invertGrippingInput && joyStick.y < downThreshold) || (!invertGrippingInput && joyStick.y > -downThreshold))
-        //{
 
-        //    joyStick.x *= horizontalDamping;
+        if (!_playerManager.isGripping)
+        {
+            Vector3 L_WorldOffset = new Vector3(
+                Mathf.Clamp(stick.x, -1, 1) * armLength,
+                Mathf.Clamp(stick.y, -1, 1) * armLength,
+                0f);
 
-        //    // Gradually dampen swinging
-        //    Vector3 bodyVelocity = _bodyRB.linearVelocity;
-        //    bodyVelocity.x *= swingDampening;
-        //    _bodyRB.linearVelocity = bodyVelocity;
-        //}
-        
+            Vector3 targetPos = L_WorldOffset + _bodyRB.transform.position;
+            _handRB.transform.position = Vector3.MoveTowards(_handRB.transform.position, targetPos, handMoveSpeed * Time.deltaTime);
+        }
 
+    }
+    private void MouseGripppedMovement()
+    {
+        Vector2 mouseDelta = Mouse.current.delta.ReadValue();
 
-        // Apply force
-        //if (invertGrippingInput) _bodyRB.AddForce(-joyStick * forceMultiplier, ForceMode.Acceleration);
-        //else _bodyRB.AddForce(joyStick * forceMultiplier, ForceMode.Acceleration);
+        Vector2 forceDirection = Mouse.current.delta.ReadValue() * mouseGripSensitivity;
 
+        if (invertGrippingInput)
+            forceDirection = -forceDirection;
 
+        forceDirection = Vector2.ClampMagnitude(forceDirection, 1f);
 
+        Debug.Log(forceDirection.magnitude);
+
+        speed = _bodyRB.linearVelocity.magnitude;
+
+        boost = Mathf.Clamp01(
+            1f - speed / boostFadeSpeed
+        );
+
+        acceleration =
+            forceMultiplier +
+            initialAccelerationBoost * boost;
+
+        if (speed < maxSwingSpeed)
+        {
+            _bodyRB.AddForce(
+                forceDirection * acceleration,
+                ForceMode.Acceleration
+            );
+        }
+    }
+
+    private void ControllerGrippedMovement(Vector2 joyStick)
+    {
         if (joyStick == Vector2.zero)
         {
             _bodyRB.linearVelocity *= swingDampening;
@@ -232,27 +364,10 @@ public class PlayerInput : MonoBehaviour
                 forceDirection * acceleration,
                 ForceMode.Acceleration
             );
+            Debug.Log((forceDirection * acceleration).magnitude);
         }
-   
-
     }
-    // Move hand based on joystick input and handle gripping
-    private void ControllerMovement(Vector2 stick)
-    {
-
-        if (!_playerManager.isGripping)
-        {
-            Vector3 L_WorldOffset = new Vector3(
-                Mathf.Clamp(stick.x, -1, 1) * armLength,
-                Mathf.Clamp(stick.y, -1, 1) * armLength,
-                0f);
-
-            Vector3 targetPos = L_WorldOffset + _bodyRB.transform.position;
-            _handRB.transform.position = Vector3.MoveTowards(_handRB.transform.position, targetPos, handMoveSpeed * Time.deltaTime);
-        }
-
-    }
-    private void GrippingLogic()
+    private void ControllerGrippingLogic()
     {
         bool leftTriggerPressed = leftTrigger >= triggerDeadZone;
         bool leftShoulderPressed = leftShoulder >= triggerDeadZone;
@@ -284,6 +399,7 @@ public class PlayerInput : MonoBehaviour
 
     private void OnGrip()
     {
+        mouseDelta = Vector2.zero;
         if (_playerManager.isRespawning)
         {
             _playerManager.isRespawning = false;
@@ -319,6 +435,10 @@ public class PlayerInput : MonoBehaviour
     }
     private void OnGripRelease()
     {
+        mouseDelta = Vector2.zero;
+
+        mouseHandOffset = _handRB.transform.position - _bodyRB.transform.position;
+
         if (_playerManager.isGripping == true)
         {
             _playerManager.dyno.StartDyno();
@@ -334,7 +454,7 @@ public class PlayerInput : MonoBehaviour
 
     private IEnumerator DoGripVibration()
     {
-        if (!vibrationEnabled) yield break;
+        if (!vibrationEnabled || mouseInUse) yield break;
         Gamepad.current.SetMotorSpeeds(gripVibrationStrengthLowFrequency, gripVibrationStrengthHighFrequency);
         yield return new WaitForSeconds(gripVibrationDuration);
         Gamepad.current.SetMotorSpeeds(0, 0);
@@ -342,7 +462,7 @@ public class PlayerInput : MonoBehaviour
 
     public IEnumerator DoDecelerationVibration()
     {
-        if (!vibrationEnabled) yield break;
+        if (!vibrationEnabled || mouseInUse) yield break;
         Gamepad.current.SetMotorSpeeds(decelerationVibrationStrengthLowFrequency, decelerationVibrationStrengthHighFrequency);
         yield return new WaitForSeconds(decelerationVibrationDuration);
         Gamepad.current.SetMotorSpeeds(0, 0);
