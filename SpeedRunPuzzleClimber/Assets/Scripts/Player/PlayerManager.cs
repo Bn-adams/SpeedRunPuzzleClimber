@@ -126,6 +126,8 @@ public class PlayerManager : MonoBehaviour
 
     public void OpenMenu()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         spawnManager.currentCheckpoint = Vector2.zero;
         spawnManager.SpawnPlayer();
         GameManager.Instance.SetUI(true);

@@ -105,7 +105,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] float boost;
     [SerializeField] float acceleration;
 
-
+    [SerializeField] float LargestForce;
 
     private void Awake()
     {
@@ -223,6 +223,26 @@ public class PlayerInput : MonoBehaviour
         if (Mouse.current == null) return;
 
         mouseDelta = Mouse.current.delta.ReadValue();
+
+        if (Mouse.current.forwardButton.wasPressedThisFrame)
+        {
+            _playerManager.spawnManager.SpawnPlayer();
+        }
+        if (Mouse.current.backButton.wasPressedThisFrame)
+        {
+            _playerManager.spawnManager.currentCheckpoint = Vector2.zero;
+            _playerManager.spawnManager.SpawnPlayer();
+        }
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            
+            _playerManager.OpenMenu();
+        }
+        if (Mouse.current.leftButton.wasPressedThisFrame && !Cursor.visible)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
     private void MouseMovement()
     {
@@ -248,48 +268,8 @@ public class PlayerInput : MonoBehaviour
 
         _handRB.transform.position = targetPos;
     }
-    private void MouseGrippingLogic()
-    {
-        if (Mouse.current == null)
-            return;
-
-        bool gripPressed = Mouse.current.leftButton.isPressed;
-
-        if (gripPressed)
-        {
-            if (_playerManager.CanGripFinish)
-            {
-                OnGrip();
-                Finish();
-            }
-            else if (_playerManager.CanGripCheckpoint)
-            {
-                OnGrip();
-                _playerManager.spawnManager.SetCheckPoint();
-            }
-            else if (_playerManager.CanGripJug)
-            {
-                OnGrip();
-            }
-            else if (!_playerManager.isRespawning)
-            {
-                OnGripRelease();
-            }
-        }
-        else
-        {
-            OnGripRelease();
-        }
-    }
-
     
 
-    
-
-    
-
-    
-    
     // Move hand based on joystick input and handle gripping
     private void ControllerMovement(Vector2 stick)
     {
@@ -308,7 +288,6 @@ public class PlayerInput : MonoBehaviour
     }
     private void MouseGripppedMovement()
     {
-        Vector2 mouseDelta = Mouse.current.delta.ReadValue();
 
         Vector2 forceDirection = Mouse.current.delta.ReadValue() * mouseGripSensitivity;
 
@@ -335,6 +314,11 @@ public class PlayerInput : MonoBehaviour
                 forceDirection * acceleration,
                 ForceMode.Acceleration
             );
+            if (LargestForce < (forceDirection * acceleration).magnitude)
+            {
+                LargestForce = (forceDirection * acceleration).magnitude;
+                Debug.Log($"Input: {forceDirection.magnitude} | Acceleration: {acceleration} | Force: {(forceDirection * acceleration).magnitude}");
+            }
         }
     }
 
@@ -364,7 +348,41 @@ public class PlayerInput : MonoBehaviour
                 forceDirection * acceleration,
                 ForceMode.Acceleration
             );
-            Debug.Log((forceDirection * acceleration).magnitude);
+
+            if (LargestForce < (forceDirection * acceleration).magnitude)
+            {
+                LargestForce = (forceDirection * acceleration).magnitude;
+                Debug.Log($"Input: {forceDirection.magnitude} | Acceleration: {acceleration} | Force: {(forceDirection * acceleration).magnitude}");
+            }
+        }
+    }
+    private void MouseGrippingLogic()
+    {
+        if (Mouse.current == null)
+            return;
+
+        bool leftMouse = Mouse.current.leftButton.isPressed;
+        bool rightMouse = Mouse.current.rightButton.isPressed;
+
+        
+
+        if (leftMouse)
+        {
+            if (_playerManager.CanGripFinish) { OnGrip(); Finish(); }
+            else if (_playerManager.CanGripCheckpoint){OnGrip();_playerManager.spawnManager.SetCheckPoint();}
+            else if (_playerManager.CanGripJug && !rightMouse){ OnGrip(); }
+            else if (!_playerManager.isRespawning){ OnGripRelease();}
+        }
+        else if (rightMouse)
+        {
+            if (_playerManager.CanGripFinish) { OnGrip(); Finish(); }
+            else if (_playerManager.CanGripCheckpoint) { OnGrip(); _playerManager.spawnManager.SetCheckPoint(); }
+            else if (_playerManager.CanGripCrimp && !leftMouse) OnGrip();
+            else if (!_playerManager.isRespawning) { OnGripRelease(); }
+        }
+        else
+        {
+            OnGripRelease();
         }
     }
     private void ControllerGrippingLogic()
@@ -467,7 +485,6 @@ public class PlayerInput : MonoBehaviour
         yield return new WaitForSeconds(decelerationVibrationDuration);
         Gamepad.current.SetMotorSpeeds(0, 0);
     }
-
 
 
     private void Finish()

@@ -148,14 +148,15 @@ public class UILevelManager : MonoBehaviour
         if ((evt.mousePosition - lastMouse).sqrMagnitude > 1f)
         {
             controllerActive = false;
-            UnityEngine.Cursor.visible = true;
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            ShowMouse();
         }
         lastMouse = evt.mousePosition;
     }
     private void HideMouse()
     {
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.visible = false;
+
     }
     private void ShowMouse()
     {
@@ -255,6 +256,7 @@ public class UILevelManager : MonoBehaviour
         gameObject.SetActive(false);
 
         HUD.SetActive(true);
+        HideMouse();
     }
     // Navigation is used to move around the level system with a controller,
     // Nav rules are used for special coniderations for a better user experience
