@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &579132826884313375
 Transform:
   m_ObjectHideFlags: 0
@@ -4536,7 +4536,7 @@ ParticleSystemRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -9434,7 +9434,7 @@ GameObject:
   - component: {fileID: 6744151389617338890}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9448,7 +9448,7 @@ Transform:
   m_GameObject: {fileID: 1422997115139310994}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000005751643, y: -0.000000005007402, z: 2.880079e-16, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9494,7 +9494,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6509804, g: 0.59607846, b: 0.54509807, a: 1}
+  m_BackGroundColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -9641,13 +9641,13 @@ MonoBehaviour:
   light1: {fileID: 8351595311567948279}
   light2: {fileID: 7510852453003003756}
   light3: {fileID: 2140402664501589550}
-  light1Min: 0.8
-  light1Max: 1.4
-  light2Min: 2.5
-  light2Max: 3.5
-  light3Min: 0.7
-  light3Max: 0.8
-  changeSpeed: 4
+  light1Min: 4
+  light1Max: 6
+  light2Min: 0.8
+  light2Max: 1.5
+  light3Min: 1
+  light3Max: 1.5
+  changeSpeed: 8
 --- !u!1 &2031210434956458188
 GameObject:
   m_ObjectHideFlags: 0
@@ -19398,8 +19398,8 @@ MonoBehaviour:
   m_LightType: 1
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.641
-  m_Color: {r: 1, g: 0.37177002, b: 0, a: 1}
-  m_Intensity: 1.4
+  m_Color: {r: 1, g: 0.4110248, b: 0.06132078, a: 1}
+  m_Intensity: 5.77
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -19409,7 +19409,7 @@ MonoBehaviour:
   m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
+  m_NormalMapQuality: 1
   m_UseNormalMap: 0
   m_ShadowsEnabled: 1
   m_ShadowIntensity: 0.75
@@ -19418,8 +19418,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.000500679, y: 0.00009918213, z: 0}
-    m_Extent: {x: 30.259201, y: 30.2591, z: 0}
+    m_Center: {x: 0.0008010864, y: -0.00069999695, z: 0}
+    m_Extent: {x: 42.209, y: 42.209297, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -19427,7 +19427,7 @@ MonoBehaviour:
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 29.76
+  m_ShapeLightFalloffSize: 41.71
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
   - {x: 0.5, y: 0, z: 0}
@@ -19545,7 +19545,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.14150941, g: 0.032249514, b: 0.00066749885, a: 1}
@@ -19665,9 +19665,9 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 1
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.797
-  m_Color: {r: 1, g: 0.5835256, b: 0, a: 1}
-  m_Intensity: 3
+  m_FalloffIntensity: 0.884
+  m_Color: {r: 1, g: 0.77843136, b: 0.4669811, a: 1}
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -19677,7 +19677,7 @@ MonoBehaviour:
   m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
+  m_NormalMapQuality: 1
   m_UseNormalMap: 0
   m_ShadowsEnabled: 1
   m_ShadowIntensity: 0.75
@@ -19686,8 +19686,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.00044965744, y: -0.0001001358, z: 0}
-    m_Extent: {x: 11.728849, y: 11.7294, z: 0}
+    m_Center: {x: -0.00024986267, y: 0.00045013428, z: 0}
+    m_Extent: {x: 20.92915, y: 20.92955, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -19695,7 +19695,7 @@ MonoBehaviour:
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 11.23
+  m_ShapeLightFalloffSize: 20.43
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
   - {x: 0.5, y: 0, z: 0}
@@ -24757,7 +24757,7 @@ ParticleSystemRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_RenderMode: 1
   m_MeshDistribution: 0
@@ -24854,9 +24854,9 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 1
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.787
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_FalloffIntensity: 0.906
+  m_Color: {r: 1, g: 0.8502598, b: 0.8160377, a: 1}
+  m_Intensity: 1.25
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -24866,7 +24866,7 @@ MonoBehaviour:
   m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
+  m_NormalMapQuality: 1
   m_UseNormalMap: 0
   m_ShadowsEnabled: 1
   m_ShadowIntensity: 0.75
@@ -24875,8 +24875,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.0023499727, y: -0.0022000074, z: 0}
-    m_Extent: {x: 1.49745, y: 1.4978, z: 0}
+    m_Center: {x: 0.00069999695, y: -0.0009498596, z: 0}
+    m_Extent: {x: 5.8993, y: 5.89925, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -24884,7 +24884,7 @@ MonoBehaviour:
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 1
+  m_ShapeLightFalloffSize: 5.4
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
   - {x: 0.5, y: 0, z: 0}
@@ -24947,7 +24947,7 @@ Transform:
   m_GameObject: {fileID: 7988566184538969454}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29744,8 +29744,6 @@ MonoBehaviour:
   springEnabled: 1
   jointSpring: 500
   jointDamper: 80
-  projectionDistance: 0.1
-  projectionAngle: 5
 --- !u!114 &7212706696028377879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29761,11 +29759,12 @@ MonoBehaviour:
   sparkHalo: {fileID: 7571460442625638368, guid: 1b7b0fc283278c642a5b4e40030feb3f, type: 3}
   fireWhooshSFX: {fileID: 4630498488466484917, guid: 958e068ae81e7d941b8e64de7569276d, type: 3}
   _leftStickInUse: 1
+  mouseInUse: 0
+  mouseSensitivity: 0.013
+  mouseGripSensitivity: 5
   hasVibrated: 0
   invertGrippingInput: 1
   handMoveSpeed: 200
-  maxVelocity: 25
-  maxLinearDampening: 1
   shouldRestartTimer: 0
   vibrationEnabled: 1
   gripVibrationDuration: 0.05
@@ -29774,14 +29773,7 @@ MonoBehaviour:
   decelerationVibrationDuration: 0.05
   decelerationVibrationStrengthLowFrequency: 0.1
   decelerationVibrationStrengthHighFrequency: 0.2
-  hasDashed: 0
-  dashPower: 10
-  dashDuration: 1
   gripReleaseDash: 0.1
-  downThreshold: -0.85
-  singleHandUpwardBoost: 2
-  doubleHandedUpwardBoost: 1.4
-  horizontalDamping: 1
   swingDampening: 0.98
   forceMultiplier: 12
   initialAccelerationBoost: 50
@@ -29790,6 +29782,7 @@ MonoBehaviour:
   speed: 0
   boost: 0
   acceleration: 0
+  LargestForce: 0
 --- !u!114 &5116464034045942128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29836,7 +29829,7 @@ MonoBehaviour:
   playerScaledVelocity: 0
   dynoed: 0
   dynoEnterAmount: 0.6
-  dynoExitAmount: 0.2
+  dynoExitAmount: 0.1
   dynoSoundPrefab: {fileID: 4630498488466484917, guid: 0467e56ec10986044be2a0e6234c996f, type: 3}
   shineParticlePrefab: {fileID: 650660369389419003, guid: 6947e046694854f4da52addc92bd371e, type: 3}
   dynoRingParticlePrefab: {fileID: 4118538749950903838, guid: befaf7efacff256459fe1a998a8e5229, type: 3}
@@ -29900,7 +29893,7 @@ Transform:
   m_GameObject: {fileID: 8965825007146619379}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
