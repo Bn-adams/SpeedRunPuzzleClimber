@@ -60,11 +60,11 @@ public class GripCollider : MonoBehaviour
 
     private void OnTriggerExit(Collider collider)
     {
-        if (_playerManager.isGripping)
-        {
-            _playerManager.SetGripPoint();
-            return;
-        }
+        //if (_playerManager.isGripping)
+        //{
+        //    _playerManager.SetGripPoint();
+        //    return;
+        //}
 
         if (collider.gameObject.CompareTag("Finish"))
         {

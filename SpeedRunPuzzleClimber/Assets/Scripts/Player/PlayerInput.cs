@@ -28,7 +28,6 @@ public class PlayerInput : MonoBehaviour
     private Vector2 rightStick;
 
     private Vector2 swingStick;
-    private Vector2 dashStick;
 
     [SerializeField] private bool _leftStickInUse = true;
 
@@ -38,8 +37,7 @@ public class PlayerInput : MonoBehaviour
     // Mouse & keyboard
     private Vector2 mouseDelta;
     [SerializeField] private float mouseSensitivity = 0.01f;
-    private Vector2 mouseWorldPosition;
-    private Vector2 mouseDirection;
+    
     private Vector2 mouseHandOffset;
 
     [SerializeField] private float mouseGripSensitivity = 0.02f;
@@ -58,8 +56,7 @@ public class PlayerInput : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] private bool invertGrippingInput = true;
     [SerializeField] private float handMoveSpeed = 100;
-    [SerializeField] private float maxVelocity = 25f;
-    [SerializeField] private float maxLinearDampening = 1;
+    
     public bool shouldRestartTimer = false;
 
     // Vibration
@@ -73,30 +70,17 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float decelerationVibrationStrengthHighFrequency = 0.2f;
 
 
-    [Header("Dash")]
-    [SerializeField] private bool hasDashed = false;
-    [SerializeField] private float dashPower = 10;
-    [SerializeField] private float dashDuration = 1;
-
     [SerializeField] private float gripReleaseDash = 0.2f;
 
-
-
-    [Header("Joystick Gripping Settings")]
-    //[SerializeField] float forceMultiplier = 15f;
-    [SerializeField] float downThreshold = -0.85f;        // Stick must be this downward to apply following settings
-    [SerializeField] float singleHandUpwardBoost = 2f; // Force multiplier on y axis when going straight up
-    [SerializeField] float doubleHandedUpwardBoost = 1.4f;
-    [SerializeField] float horizontalDamping = 1;      // Force dampener on x axis when going straight up
     [SerializeField] float swingDampening = 0.98f;        // The rate which the x axis linear velocity multiplies by on fixed update
 
 
     [Header("Joystick Gripping Settings")]
-
-    [SerializeField] float forceMultiplier = 10f;
-    [SerializeField] float initialAccelerationBoost = 20f;
-    [SerializeField] float boostFadeSpeed = 5f;
-    [SerializeField] float maxSwingSpeed = 15f;
+    private bool _gripped;
+    [SerializeField] float forceMultiplier = 12f;
+    [SerializeField] float initialAccelerationBoost = 50f;
+    [SerializeField] float boostFadeSpeed = 15f;
+    [SerializeField] float maxSwingSpeed = 25f;
 
 
     [Header("Player stats")]
@@ -417,6 +401,7 @@ public class PlayerInput : MonoBehaviour
 
     private void OnGrip()
     {
+
         mouseDelta = Vector2.zero;
         if (_playerManager.isRespawning)
         {
@@ -431,20 +416,37 @@ public class PlayerInput : MonoBehaviour
             _bodyRB.constraints = RigidbodyConstraints.FreezePositionZ;
             _bodyRB.constraints = RigidbodyConstraints.FreezeRotation;
         }
+        if (!_gripped)
+        {
+            _gripped = true;
+            if (_playerManager.CanGripFinish)
+            {
+
+            }
+            else if (_playerManager.CanGripCheckpoint)
+            {
+
+            }
+            else if (_playerManager.CanGripJug)
+            {
+                // Particles 
+                _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
+
+                // Sound FX
+                Instantiate(fireWhooshSFX);
+            }
+            else
+            {
+                _gripped = false;
+                return;
+            }
+            _playerManager.isGripping = true;
+            _handRB.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        // Vibration
         if (!hasVibrated && vibrationEnabled)
         {
-            _playerManager.isGripping = true;
-            _playerManager.gripPoint = _playerManager.handRB.transform.position;
-            _handRB.constraints = RigidbodyConstraints.FreezeAll;
-
-
-            // Particles 
-            _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
-
-            // Sound FX
-            Instantiate(fireWhooshSFX);
-
-
             hasVibrated = true;
             if (GripVibrationCoroutine != null) StopCoroutine(GripVibrationCoroutine);
             GripVibrationCoroutine = StartCoroutine(DoGripVibration());
@@ -466,6 +468,7 @@ public class PlayerInput : MonoBehaviour
 
             hasVibrated = false;
             _playerManager.isGripping = false;
+            _gripped = false;
             _handRB.constraints = RigidbodyConstraints.None;
         }
     }

@@ -14,8 +14,6 @@ public class JointManager : MonoBehaviour
     [SerializeField] private bool springEnabled = false;
     [SerializeField] private float jointSpring = 500f;
     [SerializeField] private float jointDamper = 80f;
-    [SerializeField] private float projectionDistance = 0.1f;
-    [SerializeField] private float projectionAngle = 5f;
 
     private void Awake()
     {

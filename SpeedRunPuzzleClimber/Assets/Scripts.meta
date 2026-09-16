@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 8c8b99d954305254f9b73c4ef03276e2
+labels:
+- Script
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
