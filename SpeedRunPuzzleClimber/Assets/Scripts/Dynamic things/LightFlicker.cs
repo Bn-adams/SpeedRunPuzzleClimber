@@ -18,11 +18,18 @@ public class LightFlicker : MonoBehaviour
     public float light3Min = 0.7f;
     public float light3Max = 1.4f;
 
-    public float changeSpeed = 2f;
+    public float minChangeSpeed = 0.5f;
+    public float maxChangeSpeed = 2f;
+
+    public float minBrightnessMultiplier = 0.2f;
+    public float maxBrightnessMultiplier = 1f;
 
     private float target1;
     private float target2;
     private float target3;
+
+
+    [SerializeField] private float speed;
 
     private void Awake()
     {
@@ -39,13 +46,13 @@ public class LightFlicker : MonoBehaviour
     void Update()
     {
         // Player speed from 0 to 1
-        float speed = Mathf.Clamp01(_playerManager.PlayerSpeedScaler);
+        speed = Mathf.Clamp01(_playerManager.PlayerSpeedScaler);
 
         // How quickly the lights change
-        float flickerSpeed = Mathf.Lerp(0.5f, changeSpeed, speed);
+        float flickerSpeed = Mathf.Lerp(minChangeSpeed, maxChangeSpeed, speed);
 
         // Speed controls overall brightness
-        float brightnessMultiplier = Mathf.Lerp(0.4f, 1f, speed);
+        float brightnessMultiplier = Mathf.Lerp(minBrightnessMultiplier, maxBrightnessMultiplier, speed);
 
         // Pick new random targets
         if (Mathf.Abs(light1.intensity - target1 * brightnessMultiplier) < 0.05f)

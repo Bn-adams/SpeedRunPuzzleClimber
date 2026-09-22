@@ -45,12 +45,9 @@ public class UILevelManager : MonoBehaviour
     private void Update()
     {
 
-        
-
         // Checks for mouse movement, if true turn of controller movement and switch to mouse
         if (Mouse.current.delta.ReadValue().sqrMagnitude > 0.1f)
         {
-            Debug.Log("mouse move");
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             controllerActive = false;
             RemoveControllerFocus();
@@ -197,7 +194,8 @@ public class UILevelManager : MonoBehaviour
         Label levelLabel = root.Q<Label>(levelString);
         if (levelLabel != null)
         {
-            levelLabel.text = $"Level {level}";
+            //levelLabel.text = $"Level {level}";
+            levelLabel.visible = true;
         }
     }
 

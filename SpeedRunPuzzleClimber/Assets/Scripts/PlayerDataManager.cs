@@ -58,7 +58,7 @@ public class PlayerDataManager : MonoBehaviour
         Debug.Log("Saved PlayerData.");
     }
 
-    // ------------ Getters and Setters ------------
+    // Getters and Setters
 
     public string GetPlayerName() => cachedData.PlayerName;
 
@@ -80,7 +80,6 @@ public class PlayerDataManager : MonoBehaviour
 
     public void SetSingleLevelTime(int level, float time)
     {
-        // Expand if needed
         if (level >= cachedData.BestLevelTimes.Length)
         {
             float[] newArray = new float[level + 1];

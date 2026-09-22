@@ -37,6 +37,7 @@ public class GripCollider : MonoBehaviour
         {
             _playerManager.CanGripCheckpoint = true;
             _playerManager.spawnManager.PotentialCheckpoint = collider.transform.position;
+            _playerManager.currentCheckpointGameObject = collider.transform.parent.gameObject;
         }
         
         if (collider.gameObject.CompareTag("Jug"))

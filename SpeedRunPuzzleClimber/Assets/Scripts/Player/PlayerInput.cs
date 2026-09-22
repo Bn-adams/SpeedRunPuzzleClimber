@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour
 
     [SerializeField] GameObject sparkHalo;
     [SerializeField] GameObject fireWhooshSFX;
+    [SerializeField] GameObject checkpointSFX;
+
 
     private Rigidbody _bodyRB;
     private Rigidbody _handRB;
@@ -76,7 +78,7 @@ public class PlayerInput : MonoBehaviour
 
 
     [Header("Joystick Gripping Settings")]
-    private bool _gripped;
+    public bool _gripped;
     [SerializeField] float forceMultiplier = 12f;
     [SerializeField] float initialAccelerationBoost = 50f;
     [SerializeField] float boostFadeSpeed = 15f;
@@ -421,11 +423,17 @@ public class PlayerInput : MonoBehaviour
             _gripped = true;
             if (_playerManager.CanGripFinish)
             {
+                _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
 
+                // Sound FX
+                Instantiate(fireWhooshSFX);
             }
             else if (_playerManager.CanGripCheckpoint)
             {
+                _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
 
+                // Sound FX
+                Instantiate(fireWhooshSFX);
             }
             else if (_playerManager.CanGripJug)
             {

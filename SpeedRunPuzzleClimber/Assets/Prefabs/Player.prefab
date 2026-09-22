@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &579132826884313375
 Transform:
   m_ObjectHideFlags: 0
@@ -29656,7 +29656,6 @@ GameObject:
   - component: {fileID: 7391290461971191469}
   - component: {fileID: 3408843152045218574}
   - component: {fileID: 6815905075130189637}
-  - component: {fileID: 2405732704544764902}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -29758,6 +29757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sparkHalo: {fileID: 7571460442625638368, guid: 1b7b0fc283278c642a5b4e40030feb3f, type: 3}
   fireWhooshSFX: {fileID: 4630498488466484917, guid: 958e068ae81e7d941b8e64de7569276d, type: 3}
+  checkpointSFX: {fileID: 4630498488466484917, guid: 2e10e46849f4bf14c9631f60ac6faefd, type: 3}
   _leftStickInUse: 1
   mouseInUse: 0
   mouseSensitivity: 0.013
@@ -29775,6 +29775,7 @@ MonoBehaviour:
   decelerationVibrationStrengthHighFrequency: 0.2
   gripReleaseDash: 0.1
   swingDampening: 0.98
+  _gripped: 0
   forceMultiplier: 12
   initialAccelerationBoost: 50
   boostFadeSpeed: 15
@@ -29796,6 +29797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnManager
   HUD: {fileID: 0}
+  checkpointSFX: {fileID: 4630498488466484917, guid: 2e10e46849f4bf14c9631f60ac6faefd, type: 3}
   currentCheckpoint: {x: 0, y: 0}
 --- !u!114 &7391290461971191469
 MonoBehaviour:
@@ -29846,26 +29848,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DecelerationDector
   decelerationThreshold: 250
---- !u!114 &2405732704544764902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8624595777870602743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6ec7cc0ce2ca204a85e238e86a7773c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Dyno
-  playerVelocity: 0
-  playerScaledVelocity: 0
-  dynoed: 0
-  dynoEnterAmount: 0.8
-  dynoExitAmount: 0.2
-  dynoSoundPrefab: {fileID: 0}
-  shineParticlePrefab: {fileID: 0}
-  dynoRingParticlePrefab: {fileID: 0}
 --- !u!1 &8965825007146619379
 GameObject:
   m_ObjectHideFlags: 0

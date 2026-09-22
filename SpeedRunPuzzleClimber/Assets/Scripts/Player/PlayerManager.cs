@@ -1,4 +1,3 @@
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
 [RequireComponent(typeof(JointManager))]
@@ -12,7 +11,10 @@ using UnityEngine.InputSystem.HID;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private HUDManager _hudManager;
+    [SerializeField] private GameObject finishSFX;
+    [SerializeField] private GameObject finishParticle;
 
+    [SerializeField] public GameObject currentCheckpointGameObject;
 
     public ParticleManager particleManager;
     //[SerializeField] private float divideScaler = 30;
@@ -121,6 +123,9 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("Best Time: " + GameManager.Instance.GetCurrentLevelBestTime());
             GameManager.Instance.setCurrentLevelTime(timerManager.timeElapsed);
             Debug.Log("Time: " + timerManager.timeElapsed + ((timeDif > 0) ? " Time difference from best: +" : " Time difference from best: ") + timeDif);
+
+            if (finishSFX != null) Instantiate(finishSFX);
+            if (finishParticle != null) Instantiate(finishParticle, handRB.transform);
         }
     }
 

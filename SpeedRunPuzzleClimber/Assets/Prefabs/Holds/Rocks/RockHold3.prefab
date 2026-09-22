@@ -160,6 +160,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Glow
       objectReference: {fileID: 0}
+    - target: {fileID: 2194187319604797071, guid: 5f03206b871ffc349984b5c7fdbe9489, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5002569668792984869, guid: 5f03206b871ffc349984b5c7fdbe9489, type: 3}
+      propertyPath: m_LocalBounds.m_Center.x
+      value: 0.0033500195
+      objectReference: {fileID: 0}
+    - target: {fileID: 5002569668792984869, guid: 5f03206b871ffc349984b5c7fdbe9489, type: 3}
+      propertyPath: m_LocalBounds.m_Center.y
+      value: 0.038100004
+      objectReference: {fileID: 0}
+    - target: {fileID: 5002569668792984869, guid: 5f03206b871ffc349984b5c7fdbe9489, type: 3}
+      propertyPath: m_LocalBounds.m_Extent.x
+      value: 5.91765
+      objectReference: {fileID: 0}
+    - target: {fileID: 5002569668792984869, guid: 5f03206b871ffc349984b5c7fdbe9489, type: 3}
+      propertyPath: m_LocalBounds.m_Extent.y
+      value: 6.542
+      objectReference: {fileID: 0}
     - target: {fileID: 8668090492606395516, guid: 5f03206b871ffc349984b5c7fdbe9489, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
