@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEngine;
 
 // Class to store player information
@@ -14,7 +13,9 @@ public class PlayerData
 public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerDataManager Instance;
-    private string filePath;
+
+    private const string SAVE_KEY = "PlayerData";
+
     private PlayerData cachedData;
 
     void Awake()
@@ -29,23 +30,23 @@ public class PlayerDataManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        filePath = Path.Combine(Application.persistentDataPath, "PlayerData.json");
-        Debug.Log("Save Path: " + filePath);
-
         LoadOrCreate();
     }
 
-    // Load existing data or create new file
+    // Load existing data or create new data
     private void LoadOrCreate()
     {
-        if (File.Exists(filePath))
+        if (PlayerPrefs.HasKey(SAVE_KEY))
         {
-            string json = File.ReadAllText(filePath);
+            string json = PlayerPrefs.GetString(SAVE_KEY);
             cachedData = JsonUtility.FromJson<PlayerData>(json);
+
+            Debug.Log("Loaded PlayerData.");
         }
         else
         {
             Debug.Log("No save found, creating new data.");
+
             cachedData = new PlayerData();
             Save();
         }
@@ -53,14 +54,20 @@ public class PlayerDataManager : MonoBehaviour
 
     public void Save()
     {
-        string json = JsonUtility.ToJson(cachedData, true);
-        File.WriteAllText(filePath, json);
+        string json = JsonUtility.ToJson(cachedData);
+
+        PlayerPrefs.SetString(SAVE_KEY, json);
+        PlayerPrefs.Save();
+
         Debug.Log("Saved PlayerData.");
     }
 
     // Getters and Setters
 
-    public string GetPlayerName() => cachedData.PlayerName;
+    public string GetPlayerName()
+    {
+        return cachedData.PlayerName;
+    }
 
     public void SetPlayerName(string name)
     {
@@ -68,7 +75,10 @@ public class PlayerDataManager : MonoBehaviour
         Save();
     }
 
-    public float[] GetBestLevelTimes() => cachedData.BestLevelTimes;
+    public float[] GetBestLevelTimes()
+    {
+        return cachedData.BestLevelTimes;
+    }
 
     public float GetSingleLevelTime(int level)
     {
@@ -83,21 +93,26 @@ public class PlayerDataManager : MonoBehaviour
         if (level >= cachedData.BestLevelTimes.Length)
         {
             float[] newArray = new float[level + 1];
+
             cachedData.BestLevelTimes.CopyTo(newArray, 0);
+
             cachedData.BestLevelTimes = newArray;
         }
 
         cachedData.BestLevelTimes[level] = time;
+
         Save();
     }
+
     public void DeleteData()
     {
-        if (File.Exists(filePath))
-        {
-            File.Delete(filePath);
-            Debug.Log("Deleted PlayerData file.");
-        }
+        PlayerPrefs.DeleteKey(SAVE_KEY);
+        PlayerPrefs.Save();
+
         cachedData = new PlayerData();
+
         Save();
+
+        Debug.Log("Deleted PlayerData.");
     }
 }

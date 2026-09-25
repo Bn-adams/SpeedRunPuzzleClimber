@@ -23,13 +23,13 @@
     border-top-right-radius: 13px;
     border-bottom-right-radius: 13px;
     border-bottom-left-radius: 13px;
-    background-color: rgb(51, 40, 27);
+    background-color: rgba(51, 40, 27, 0.25);
     color: rgba(27, 27, 27, 0);
     background-image: url("project://database/Assets/Art/Mesh/diagmonds.png?fileID=2800000&guid=9c3063e759bde0d4d9ea4bd585580e64&type=3#diagmonds");
 }
 
 .LevelButtons:hover {
-    background-color: rgb(168, 85, 0);
+    background-color: rgba(168, 85, 0, 0.5);
     transition-timing-function: ease-in-out;
     transition-duration: 0.25s;
     scale: 1.03 1.03;
@@ -68,7 +68,7 @@
     width: 100%;
     height: 100%;
     -unity-font-definition: url("project://database/Assets/Art/Fonts/vinizinho.ttf?fileID=12800000&guid=04ddb951892d3f5419c041e0aa566efb&type=3#vinizinho");
-    font-size: 80px;
+    font-size: 114px;
     color: rgb(27, 27, 27);
     transition-duration: 0.15s;
     text-shadow: 12px 12px 0 rgba(0, 0, 0, 0.31);
@@ -120,7 +120,7 @@
 }
 
 .LevelButtonsFocus {
-    background-color: rgb(168, 85, 0);
+    background-color: rgba(168, 85, 0, 0.5);
     transition-timing-function: ease-in-out;
     transition-duration: 0.25s;
     scale: 1.03 1.03;

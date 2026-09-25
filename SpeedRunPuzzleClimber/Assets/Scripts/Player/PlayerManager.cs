@@ -137,5 +137,8 @@ public class PlayerManager : MonoBehaviour
         spawnManager.SpawnPlayer();
         GameManager.Instance.SetUI(true);
         if (_hudManager != null) _hudManager.gameObject.SetActive(false);
+
+        GameManager.Instance.UILightsParticle.SetActive(true);
+        GameManager.Instance._player.SetActive(false);
     }
 }

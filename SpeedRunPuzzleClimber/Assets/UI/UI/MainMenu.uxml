@@ -2,9 +2,9 @@
     <Style src="project://database/Assets/UI/USS/UIUSS.uss?fileID=7433441132597879392&amp;guid=1a401e8c1c65d0847b107e1238fc60a9&amp;type=3#UIUSS"/>
     <ui:VisualElement style="flex-grow: 1;">
         <ui:VisualElement style="flex-grow: 1; height: 75%; align-self: center; justify-content: center;">
-            <ui:Label text="Climbers Calamity" style="-unity-text-align: middle-center; font-size: 187px; -unity-font-definition: url(&quot;project://database/Assets/Art/Fonts/adamwarrenpro.ttf?fileID=12800000&amp;guid=098d1b32e22c13a49aa7ce762fef2292&amp;type=3#adamwarrenpro&quot;); -unity-font-style: normal; color: rgb(168, 85, 0); -unity-text-outline-width: 6px; -unity-text-outline-color: rgb(0, 0, 0); text-shadow: 12px 12px 0 rgba(0, 0, 0, 0.23);"/>
+            <ui:Label text="Climber&apos;s Calamity" style="-unity-text-align: middle-center; font-size: 158px; -unity-font-definition: url(&quot;project://database/Assets/Art/Fonts/adamwarrenpro.ttf?fileID=12800000&amp;guid=098d1b32e22c13a49aa7ce762fef2292&amp;type=3#adamwarrenpro&quot;); -unity-font-style: bold; color: rgb(168, 85, 0); -unity-text-outline-width: 6px; -unity-text-outline-color: rgb(255, 255, 255); text-shadow: 12px 12px 0 rgba(0, 0, 0, 0.23);"/>
         </ui:VisualElement>
-        <ui:VisualElement style="flex-grow: 1; height: 25%; flex-direction: row;">
+        <ui:VisualElement style="flex-grow: 1; height: 25%; flex-direction: row; visibility: visible;">
             <ui:VisualElement style="flex-grow: 1; width: 25%; padding-top: 54px; padding-right: 160px; padding-bottom: 54px; padding-left: 0;">
                 <ui:Button text="Exit" name="0" class="MenuButtons" style="-unity-text-align: middle-center; padding-right: 76px; background-color: rgba(0, 0, 0, 0); border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0);"/>
             </ui:VisualElement>
@@ -13,10 +13,10 @@
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1; width: 25%; padding-right: 41px;">
                 <ui:VisualElement style="flex-grow: 1; height: 50%;">
-                    <ui:Button text="Settings" name="2" class="MenuButtons" style="-unity-text-align: middle-right; background-color: rgba(0, 0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); font-size: 60px;"/>
+                    <ui:Button text="Settings" name="2" class="MenuButtons" style="-unity-text-align: middle-right; background-color: rgba(0, 0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); font-size: 102px;"/>
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-grow: 1; height: 50%;">
-                    <ui:Button text="Coming soon..." name="3" class="MenuButtons" style="-unity-text-align: middle-right; background-color: rgba(0, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); font-size: 48px;"/>
+                    <ui:Button text="╰(*°▽°*)╯" name="3" class="MenuButtons" style="-unity-text-align: middle-right; background-color: rgba(0, 0, 0, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); font-size: 76px;"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

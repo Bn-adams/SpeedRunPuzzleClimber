@@ -210,6 +210,27 @@ public class PlayerInput : MonoBehaviour
 
         mouseDelta = Mouse.current.delta.ReadValue();
 
+        
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            _playerManager.spawnManager.SpawnPlayer();
+        }
+        if (Keyboard.current.ctrlKey.wasPressedThisFrame)
+        {
+            _playerManager.spawnManager.currentCheckpoint = Vector2.zero;
+            _playerManager.spawnManager.SpawnPlayer();
+        }
+
+        if (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.pKey.wasPressedThisFrame || Keyboard.current.tabKey.wasPressedThisFrame)
+        {
+            _playerManager.OpenMenu();
+        }
+        if (Keyboard.current.aKey.wasPressedThisFrame && _playerManager.hasFinished)
+        {
+            _playerManager.spawnManager.currentCheckpoint = Vector2.zero;
+            _playerManager.hasFinished = false;
+            _playerManager.OpenMenu();
+        }
         if (Mouse.current.forwardButton.wasPressedThisFrame)
         {
             _playerManager.spawnManager.SpawnPlayer();
@@ -219,11 +240,7 @@ public class PlayerInput : MonoBehaviour
             _playerManager.spawnManager.currentCheckpoint = Vector2.zero;
             _playerManager.spawnManager.SpawnPlayer();
         }
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            
-            _playerManager.OpenMenu();
-        }
+
         if (Mouse.current.leftButton.wasPressedThisFrame && !Cursor.visible)
         {
             Cursor.lockState = CursorLockMode.Locked;
