@@ -95,7 +95,6 @@ public class PlayerInput : MonoBehaviour
 
     private void Awake()
     {
-        // removes the cursor, may have to tweak this when the ui is back
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -299,7 +298,6 @@ public class PlayerInput : MonoBehaviour
 
         forceDirection = Vector2.ClampMagnitude(forceDirection, 1f);
 
-        Debug.Log(forceDirection.magnitude);
 
         speed = _bodyRB.linearVelocity.magnitude;
 

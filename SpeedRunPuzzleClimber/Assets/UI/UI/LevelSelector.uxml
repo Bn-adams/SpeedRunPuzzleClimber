@@ -16,7 +16,7 @@
             <ui:VisualElement style="flex-grow: 1; flex-direction: row; height: 33%;">
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px;">
                     <ui:Button name="1" class="LevelButtons" style="width: 100%; height: 100%; -unity-text-align: upper-center; justify-content: flex-start; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
-                        <ui:Label name="1Level" text="Hang in there" class="LevelText" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; visibility: visible;"/>
+                        <ui:Label name="1Level" text="Hang in there" class="LevelText" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:Label name="1Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="1BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -26,7 +26,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="2" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="2Level" text="On the ropes" class="LevelText"/>
+                        <ui:Label name="2Level" text="Easy does it" class="LevelText"/>
                         <ui:Label name="2Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="2BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -36,7 +36,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="3" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="3Level" text="Terra" class="LevelText"/>
+                        <ui:Label name="3Level" text="Swing and a miss" class="LevelText"/>
                         <ui:Label name="3Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="3BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -46,7 +46,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="4" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="4Level" text="Lions Trail" class="LevelText"/>
+                        <ui:Label name="4Level" text="Don&apos;t slip" class="LevelText"/>
                         <ui:Label name="4Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="4BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -58,7 +58,7 @@
             <ui:VisualElement style="flex-grow: 1; height: 33%; flex-direction: row;">
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="5" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="5Level" class="LevelText"/>
+                        <ui:Label name="5Level" text="Squeezy" class="LevelText"/>
                         <ui:Label name="5Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="5BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -68,7 +68,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="6" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="6Level" text="" class="LevelText"/>
+                        <ui:Label name="6Level" text="Lions Trail" class="LevelText"/>
                         <ui:Label name="6Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="6BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -78,7 +78,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="7" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="7Level" class="LevelText"/>
+                        <ui:Label name="7Level" text="What do you call a&#10;blind bouldering&#10;Dinosaur" class="LevelText" style="font-size: 34px;"/>
                         <ui:Label name="7Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="7BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -88,7 +88,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="8" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="8Level" class="LevelText"/>
+                        <ui:Label name="8Level" text="Dyno Saurus" class="LevelText"/>
                         <ui:Label name="8Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="8BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -100,7 +100,7 @@
             <ui:VisualElement style="flex-grow: 1; height: 33%; flex-direction: row;">
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="9" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="9Level" class="LevelText"/>
+                        <ui:Label name="9Level" text="On the ropes" class="LevelText"/>
                         <ui:Label name="9Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="9BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -110,7 +110,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="10" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="10Level" class="LevelText"/>
+                        <ui:Label name="10Level" text="Its not the speed&#10; that kills ya" class="LevelText"/>
                         <ui:Label name="10Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="10BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -120,7 +120,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="11" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="11Level" class="LevelText"/>
+                        <ui:Label name="11Level" text="Getting the knack" class="LevelText"/>
                         <ui:Label name="11Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="11BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>
@@ -130,7 +130,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="LevelVE" style="flex-grow: 1;">
                     <ui:Button name="12" class="LevelButtons" style="width: 100%; height: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: upper-center; justify-content: flex-start;">
-                        <ui:Label name="12Level" class="LevelText"/>
+                        <ui:Label name="12Level" text="Good as dead" class="LevelText"/>
                         <ui:Label name="12Time" class="LevelBestTime" style="padding-top: 4px; padding-right: 2px; padding-bottom: 4px; padding-left: 1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
                         <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
                             <ui:Label name="12BTD" class="LevelBestTime" style="padding-bottom: 3px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 100%; -unity-text-align: middle-center;"/>

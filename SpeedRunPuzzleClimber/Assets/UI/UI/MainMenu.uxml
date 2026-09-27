@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/USS/UIUSS.uss?fileID=7433441132597879392&amp;guid=1a401e8c1c65d0847b107e1238fc60a9&amp;type=3#UIUSS"/>
-    <ui:VisualElement style="flex-grow: 1;">
+    <ui:VisualElement name="1" style="flex-grow: 1; opacity: 1;">
         <ui:VisualElement style="flex-grow: 1; height: 75%; align-self: center; justify-content: center;">
             <ui:Label text="Climber&apos;s Calamity" style="-unity-text-align: middle-center; font-size: 158px; -unity-font-definition: url(&quot;project://database/Assets/Art/Fonts/adamwarrenpro.ttf?fileID=12800000&amp;guid=098d1b32e22c13a49aa7ce762fef2292&amp;type=3#adamwarrenpro&quot;); -unity-font-style: bold; color: rgb(168, 85, 0); -unity-text-outline-width: 6px; -unity-text-outline-color: rgb(255, 255, 255); text-shadow: 12px 12px 0 rgba(0, 0, 0, 0.23);"/>
         </ui:VisualElement>
