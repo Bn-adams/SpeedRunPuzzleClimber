@@ -9,6 +9,11 @@ public class SpawnManager : MonoBehaviour
     private HUDManager _hudManager;
     public GameObject HUD;
 
+    [SerializeField] GameObject checkpointSFX;
+    [SerializeField] GameObject checkpointParticle;
+    [SerializeField] float checkpointParticleYpos = 2f;
+
+
 
     // Spawning and checkpoints
     public bool IsRespawning
@@ -52,6 +57,7 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnPlayer()
     {
+        _playerManager.playerInput._gripped = false;
         IsRespawning = true;
         _playerManager.ResetGrips();
 
@@ -93,6 +99,15 @@ public class SpawnManager : MonoBehaviour
         if (currentCheckpoint != potentialCheckPoint)
         {
             currentCheckpoint = potentialCheckPoint;
+            if (checkpointSFX != null) Instantiate(checkpointSFX);
+            if (checkpointParticle != null) Instantiate(checkpointParticle, 
+                new Vector3(_playerManager.handRB.transform.position.x, _playerManager.handRB.transform.position.y + checkpointParticleYpos), Quaternion.identity);
+            else Debug.LogError("No checkpoint sound effect prefab on spawn manager");
+
+            if (_playerManager.currentCheckpointGameObject != null)
+            {
+                _playerManager.currentCheckpointGameObject.GetComponentInChildren<CheckpointColourChange>().ChangeColour();
+            }
         }
     }
 }

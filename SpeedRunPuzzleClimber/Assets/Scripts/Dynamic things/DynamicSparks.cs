@@ -19,7 +19,7 @@ public class DynamicSparks : MonoBehaviour
     //[SerializeField] private float minSize;
     //[SerializeField] private float maxSize;
 
-
+    float playerSpeedScale = 0.5f;
 
 
     private void Awake()
@@ -31,7 +31,7 @@ public class DynamicSparks : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float playerSpeedScale = _playerManager.PlayerSpeedScaler;
+        if (_playerManager != null) playerSpeedScale = _playerManager.PlayerSpeedScaler;
 
         var emission = _particle.emission;
         emission.rateOverTime = Mathf.Lerp(minEmission, maxEmission, playerSpeedScale);

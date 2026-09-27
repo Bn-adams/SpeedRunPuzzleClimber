@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour
 
     [SerializeField] GameObject sparkHalo;
     [SerializeField] GameObject fireWhooshSFX;
+    [SerializeField] GameObject checkpointSFX;
+
 
     private Rigidbody _bodyRB;
     private Rigidbody _handRB;
@@ -76,7 +78,7 @@ public class PlayerInput : MonoBehaviour
 
 
     [Header("Joystick Gripping Settings")]
-    private bool _gripped;
+    public bool _gripped;
     [SerializeField] float forceMultiplier = 12f;
     [SerializeField] float initialAccelerationBoost = 50f;
     [SerializeField] float boostFadeSpeed = 15f;
@@ -93,7 +95,6 @@ public class PlayerInput : MonoBehaviour
 
     private void Awake()
     {
-        // removes the cursor, may have to tweak this when the ui is back
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -208,6 +209,27 @@ public class PlayerInput : MonoBehaviour
 
         mouseDelta = Mouse.current.delta.ReadValue();
 
+        
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            _playerManager.spawnManager.SpawnPlayer();
+        }
+        if (Keyboard.current.ctrlKey.wasPressedThisFrame)
+        {
+            _playerManager.spawnManager.currentCheckpoint = Vector2.zero;
+            _playerManager.spawnManager.SpawnPlayer();
+        }
+
+        if (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.pKey.wasPressedThisFrame || Keyboard.current.tabKey.wasPressedThisFrame)
+        {
+            _playerManager.OpenMenu();
+        }
+        if (Keyboard.current.aKey.wasPressedThisFrame && _playerManager.hasFinished)
+        {
+            _playerManager.spawnManager.currentCheckpoint = Vector2.zero;
+            _playerManager.hasFinished = false;
+            _playerManager.OpenMenu();
+        }
         if (Mouse.current.forwardButton.wasPressedThisFrame)
         {
             _playerManager.spawnManager.SpawnPlayer();
@@ -217,11 +239,7 @@ public class PlayerInput : MonoBehaviour
             _playerManager.spawnManager.currentCheckpoint = Vector2.zero;
             _playerManager.spawnManager.SpawnPlayer();
         }
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            
-            _playerManager.OpenMenu();
-        }
+
         if (Mouse.current.leftButton.wasPressedThisFrame && !Cursor.visible)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -280,7 +298,6 @@ public class PlayerInput : MonoBehaviour
 
         forceDirection = Vector2.ClampMagnitude(forceDirection, 1f);
 
-        Debug.Log(forceDirection.magnitude);
 
         speed = _bodyRB.linearVelocity.magnitude;
 
@@ -421,11 +438,17 @@ public class PlayerInput : MonoBehaviour
             _gripped = true;
             if (_playerManager.CanGripFinish)
             {
+                _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
 
+                // Sound FX
+                Instantiate(fireWhooshSFX);
             }
             else if (_playerManager.CanGripCheckpoint)
             {
+                _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
 
+                // Sound FX
+                Instantiate(fireWhooshSFX);
             }
             else if (_playerManager.CanGripJug)
             {

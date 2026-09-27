@@ -10,12 +10,17 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject LevelUI;
 
-    [SerializeField] private PlayerManager _playerManager;
+    public GameObject _player;
+    private PlayerManager _playerManager;
+    public GameObject UILightsParticle;
 
     [Header("Debug Level Loading (Editor Only)")]
     [SerializeField] private bool isMultiplayer = true;
     [SerializeField] private bool setLevel;
     [SerializeField] private int level;
+
+    [SerializeField] private bool deleteData;
+
 
     private void Awake()
     {
@@ -29,7 +34,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        _playerManager = FindAnyObjectByType<PlayerManager>();
 
         // Debug manual level change from inspector
         if (setLevel)
@@ -37,13 +41,26 @@ public class GameManager : MonoBehaviour
             setLevel = false;
             LoadLevel(level);
         }
+        if (deleteData)
+        {
+            deleteData = false;
+            DeleteData();
+        }
     }
 
     
     public void LoadLevel(int index)
     {
         levelManager.LoadLevel(index);
-        _playerManager.spawnManager.SpawnPlayer();
+
+        if (_player != null)
+        {
+            _player.SetActive(true);
+            _playerManager = FindAnyObjectByType<PlayerManager>();
+            if (_playerManager != null) _playerManager.spawnManager.SpawnPlayer();
+            else Debug.LogError("no player :(");
+            if (UILightsParticle != null) UILightsParticle.SetActive(false);
+        }
     }
 
     public void Reloadlevel()
@@ -71,5 +88,9 @@ public class GameManager : MonoBehaviour
     public void SetUI(bool UIEnabled)
     {
         LevelUI.SetActive(UIEnabled);
+    }
+    public void DeleteData()
+    {
+        PlayerDataManager.Instance.DeleteData();
     }
 }
