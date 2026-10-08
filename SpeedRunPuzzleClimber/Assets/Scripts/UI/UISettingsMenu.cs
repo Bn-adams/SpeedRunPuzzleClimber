@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class UISettingsMenu : MonoBehaviour
 {
+    [SerializeField] private SoundMixerManager _soundMixerManager;
     [SerializeField] private GameObject mainMenu;
 
     private bool controllerActive = false;
@@ -23,11 +24,28 @@ public class UISettingsMenu : MonoBehaviour
     private Slider Slider2;
     private Slider Slider3;
 
-    private float slider1Value = 50;
-    private float slider2Value = 50;
-    private float slider3Value = 50;
 
-    private VisualElement[] Index = new VisualElement[8];
+
+    private float Slider1Value
+    {
+        get { return PlayerDataManager.Instance.GetMasterVolume(); }
+        set { PlayerDataManager.Instance.SetMasterVolume(value); }
+    }
+    private float Slider2Value
+    {
+        get { return PlayerDataManager.Instance.GetMusicVolume(); }
+        set { PlayerDataManager.Instance.SetMusicVolume(value); }
+    }
+    private float Slider3Value
+    {
+        get { return PlayerDataManager.Instance.GetSoundFXVolume(); }
+        set { PlayerDataManager.Instance.SetSoundFXVolume(value); }
+    }
+
+    [SerializeField] private float _controllerSliderSpeed = 0.5f;
+
+
+    private VisualElement[] _index = new VisualElement[8];
 
     [SerializeField] private int currentFocusing = 1;
 
@@ -52,9 +70,9 @@ public class UISettingsMenu : MonoBehaviour
         backButton.clicked += BackButtonPress;
         deleteButton.clicked += DeleteSavedDataPress;
 
-        Toggle1 = root.Q<Toggle>("ControllerVibrationToggle");
-        Toggle2 = root.Q<Toggle>("InvertControllsToggle");
-        Toggle3 = root.Q<Toggle>("FullscreenToggle");
+        Toggle1 = root.Q<Toggle>("Checkbox1");
+        Toggle2 = root.Q<Toggle>("Checkbox2");
+        Toggle3 = root.Q<Toggle>("Checkbox3");
 
         Toggle1.RegisterValueChangedCallback(Toggle1Changed);
         Toggle2.RegisterValueChangedCallback(Toggle2Changed);
@@ -64,16 +82,23 @@ public class UISettingsMenu : MonoBehaviour
         Slider2 = root.Q<Slider>("MusicSlider");
         Slider3 = root.Q<Slider>("SoundFXSlider");
 
-        //for (int i = 1; i < 8; i++)
-        //{
-        //    Index[i] = root.Q<VisualElement>("Index" + i);
-        //}
+        Slider1.RegisterValueChangedCallback(evt => { ChangeVolume(1, evt.newValue); });
+        Slider2.RegisterValueChangedCallback(evt => { ChangeVolume(2, evt.newValue); });
+        Slider3.RegisterValueChangedCallback(evt => { ChangeVolume(3, evt.newValue); });
+
+        for (int i = 1; i < 7; i++)
+        {
+            _index[i] = root.Q<VisualElement>("Index" + i);
+        }
+        
 
         // Set slider values
-        Slider1.value = slider1Value;
-        Slider2.value = slider2Value;
-        Slider3.value = slider3Value;
+        Slider1.value = Slider1Value;
+        Slider2.value = Slider2Value;
+        Slider3.value = Slider3Value;
     }
+
+    
 
     private void Update()
     {
@@ -110,7 +135,7 @@ public class UISettingsMenu : MonoBehaviour
                 UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 UnityEngine.Cursor.visible = false;
 
-                FocusButton(Index[currentFocusing]);
+                if (currentFocusing != 0) FocusButton(_index[currentFocusing]);
             }
         }
 
@@ -126,6 +151,7 @@ public class UISettingsMenu : MonoBehaviour
             // Back Button
             if (currentFocusing == 0)
             {
+                Debug.Log("on the back button");
                 BackButtonPress();
             }
 
@@ -159,35 +185,32 @@ public class UISettingsMenu : MonoBehaviour
         {
             if (currentFocusing == 4)
             {
-                ChangeSliderValue(
-                    Slider1,
-                    ref slider1Value,
-                    gamepad
-                );
+                Slider1Value = ChangeSliderValue(Slider1, Slider1Value, gamepad);
+                _soundMixerManager.MasterVolume = Slider1Value;
+                Debug.Log(Slider1Value);
             }
 
             if (currentFocusing == 5)
             {
-                ChangeSliderValue(
-                    Slider2,
-                    ref slider2Value,
-                    gamepad
-                );
+                Slider2Value = ChangeSliderValue(Slider2, Slider2Value, gamepad);
+                _soundMixerManager.MusicVolume = Slider2Value;
             }
 
             if (currentFocusing == 6)
             {
-                ChangeSliderValue(
-                    Slider3,
-                    ref slider3Value,
-                    gamepad
-                );
+                Slider3Value = ChangeSliderValue(Slider3, Slider3Value, gamepad);
+                _soundMixerManager.SoundFXVolume = Slider3Value;
             }
         }
+        if (gamepad.buttonEast.wasPressedThisFrame)
+        {
+            Debug.Log("east");
+            BackButtonPress();
+        }
 
-        // --------- Controller Navigation ---------
+            // --------- Controller Navigation ---------
 
-        // Left press, goes to back button
+            // Left press, goes to back button
         if ((gamepad.dpad.left.wasPressedThisFrame ||
              gamepad.leftStick.left.wasPressedThisFrame) &&
             !gamepad.buttonSouth.isPressed)
@@ -203,7 +226,7 @@ public class UISettingsMenu : MonoBehaviour
              gamepad.leftStick.right.wasPressedThisFrame) &&
             currentFocusing == 0)
         {
-            FocusButton(Index[1]);
+            FocusButton(_index[1]);
             currentFocusing = 1;
         }
 
@@ -215,7 +238,7 @@ public class UISettingsMenu : MonoBehaviour
             {
                 currentFocusing--;
 
-                FocusButton(Index[currentFocusing]);
+                FocusButton(_index[currentFocusing]);
             }
         }
 
@@ -223,33 +246,35 @@ public class UISettingsMenu : MonoBehaviour
         if (gamepad.dpad.down.wasPressedThisFrame ||
             gamepad.leftStick.down.wasPressedThisFrame)
         {
+            currentFocusing++;
+            RemoveControllerFocus();
+
             if (currentFocusing < 7)
             {
-                currentFocusing++;
-
-                FocusButton(Index[currentFocusing]);
-
-                if (currentFocusing == 7)
-                {
-                    deleteButton.AddToClassList("LevelButtonsFocus");
-                }
+                FocusButton(_index[currentFocusing]);
+            }
+            else if (currentFocusing == 7)
+            {
+                deleteButton.AddToClassList("LevelButtonsFocus");
+            }
+            else
+            {
+                currentFocusing = 1;
+                FocusButton(_index[currentFocusing]);
             }
         }
     }
 
-    private void ChangeSliderValue(
-        Slider slider,
-        ref float sliderValue,
-        Gamepad gamepad)
+    private float ChangeSliderValue( Slider slider, float sliderValue, Gamepad gamepad)
     {
         Vector2 stick = gamepad.leftStick.ReadValue();
 
         if (gamepad.dpad.left.isPressed || stick.x <= -0.05f)
         {
             sliderValue = Mathf.Clamp(
-                sliderValue - 15f * Time.deltaTime,
-                0,
-                100
+                sliderValue - _controllerSliderSpeed * Time.deltaTime,
+                0.0001f,
+                1
             );
 
             slider.value = sliderValue;
@@ -258,13 +283,14 @@ public class UISettingsMenu : MonoBehaviour
         if (gamepad.dpad.right.isPressed || stick.x >= 0.05f)
         {
             sliderValue = Mathf.Clamp(
-                sliderValue + 15f * Time.deltaTime,
-                0,
-                100
+                sliderValue + _controllerSliderSpeed * Time.deltaTime,
+                0.0001f,
+                1
             );
 
             slider.value = sliderValue;
         }
+        return sliderValue;
     }
 
     private void FocusButton(VisualElement element)
@@ -272,22 +298,26 @@ public class UISettingsMenu : MonoBehaviour
         RemoveControllerFocus();
 
         element.AddToClassList("SettingsFocused");
+        element.AddToClassList("SettingsFocusedSlider");
     }
 
     private void RemoveControllerFocus()
     {
-        //backButton.RemoveFromClassList("LevelButtonsFocus");
+        backButton.RemoveFromClassList("LevelButtonsFocus");
 
-        //for (int i = 1; i < 8; i++)
-        //{
-        //    Index[i].RemoveFromClassList("SettingsFocused");
-        //}
+        for (int i = 1; i <= 6; i++)
+        {
+            _index[i].RemoveFromClassList("SettingsFocused");
+            _index[i].RemoveFromClassList("SettingsFocusedSlider");
 
-        //deleteButton.RemoveFromClassList("LevelButtonsFocus");
+        }
+
+        deleteButton.RemoveFromClassList("LevelButtonsFocus");
     }
 
     private void BackButtonPress()
     {
+        Debug.Log("backb");
         mainMenu.SetActive(true);
         gameObject.SetActive(false);
     }
@@ -310,9 +340,16 @@ public class UISettingsMenu : MonoBehaviour
 
         Debug.Log("Fullscreen: " + evt.newValue);
     }
+    private void ChangeVolume(int slider, float v)
+    {
+        Debug.Log(v);
+        if (slider == 1) _soundMixerManager.MasterVolume = v;
+        if (slider == 2) _soundMixerManager.MusicVolume = v;
+        if (slider == 3) _soundMixerManager.SoundFXVolume = v;
+    }
 
     private void DeleteSavedDataPress()
     {
-        Debug.Log("Delete Saved Data Button Pressed");
+        PlayerDataManager.Instance.DeleteData();
     }
 }

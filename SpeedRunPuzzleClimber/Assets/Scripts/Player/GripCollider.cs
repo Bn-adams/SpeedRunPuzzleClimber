@@ -25,74 +25,66 @@ public class GripCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-
-
-
-
-        if (collider.gameObject.CompareTag("Finish"))
-        {
-            _playerManager.CanGripFinish = true;
-        }
-        if (collider.gameObject.CompareTag("Checkpoint"))
-        {
-            _playerManager.CanGripCheckpoint = true;
-            _playerManager.spawnManager.PotentialCheckpoint = collider.transform.position;
-            _playerManager.currentCheckpointGameObject = collider.transform.parent.gameObject;
-        }
-        
         if (collider.gameObject.CompareTag("Jug"))
         {
             _playerManager.CanGripJug = true;
             IsBreaker(collider, true);
         }
+        else if (collider.gameObject.CompareTag("Checkpoint"))
+        {
+            _playerManager.CanGripCheckpoint = true;
+            _playerManager.spawnManager.PotentialCheckpoint = collider.transform.position;
+            _playerManager.currentCheckpointGameObject = collider.transform.parent.gameObject;
+        }
+        else if (collider.gameObject.CompareTag("Finish"))
+        {
+            _playerManager.CanGripFinish = true;
+            _playerManager.spawnManager.PotentialCheckpoint = collider.transform.position;
+        }
+
         if (collider.gameObject.CompareTag("Crimp"))
         {
+            _playerManager.CanGripJug = true;
             _playerManager.CanGripCrimp = true;
             IsBreaker(collider, true);
 
         }
-        if (collider.gameObject.CompareTag("Pocket"))
-        {
-            _playerManager.CanGripPocket = true;
-            IsBreaker(collider, true);
+        //if (collider.gameObject.CompareTag("Pocket"))
+        //{
+        //    _playerManager.CanGripPocket = true;
+        //    IsBreaker(collider, true);
 
-        }
+        //}
     }
 
     private void OnTriggerExit(Collider collider)
     {
-        //if (_playerManager.isGripping)
-        //{
-        //    _playerManager.SetGripPoint();
-        //    return;
-        //}
-
-        if (collider.gameObject.CompareTag("Finish"))
-        {
-            _playerManager.CanGripFinish = false;
-        }
-        if (collider.gameObject.CompareTag("Checkpoint"))
-        {
-            _playerManager.CanGripCheckpoint = false;
-        }
-       
         if (collider.gameObject.CompareTag("Jug"))
         {
             _playerManager.CanGripJug = false;
             IsBreaker(collider, false);
 
         }
+        if (collider.gameObject.CompareTag("Checkpoint"))
+        {
+            _playerManager.CanGripCheckpoint = false;
+        }
+        if (collider.gameObject.CompareTag("Finish"))
+        {
+            _playerManager.CanGripFinish = false;
+        }
+       
         if (collider.gameObject.CompareTag("Crimp"))
         {
+            _playerManager.CanGripJug = false;
             _playerManager.CanGripCrimp = false;
             IsBreaker(collider, false);
-
         }
-        if (collider.gameObject.CompareTag("Pocket"))
-        {
-            _playerManager.CanGripPocket = false;
-            IsBreaker(collider, false);
+        //if (collider.gameObject.CompareTag("Pocket"))
+        //{
+        //    _playerManager.CanGripPocket = false;
+        //    IsBreaker(collider, false);
 
-        }
+        //}
     }
 }

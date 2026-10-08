@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CrackedColourChange))]
 public class HoldBreaker : MonoBehaviour
 {
+    private CrackedColourChange _crackedColourChange;
     private PlayerManager _playerManager;
-    [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private GameObject _dustParticle;
+    [SerializeField] private GameObject _crackSound;
 
     private int holdIndex = -1;
 
@@ -21,23 +24,24 @@ public class HoldBreaker : MonoBehaviour
     private bool isDisabled = false;
     private bool hasCollided = false;
 
-     private bool timerRunning = false;
-     private float gripTimer = 0f;
+    private bool timerRunning = false;
+    private float gripTimer = 0f;
 
     private void Awake()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _crackedColourChange = GetComponent<CrackedColourChange>();
+        spriteRenderer = GetComponentInParent<SpriteRenderer>();
         selfCollider = GetComponent<Collider>();
         originalOpacity = spriteRenderer.color.a;
         Animator = GetComponentInChildren<Animator>();
 
     }
 
-   
+
 
     private void Update()
     {
-        
+
 
         if (!timerRunning)
         {
@@ -46,19 +50,21 @@ public class HoldBreaker : MonoBehaviour
                 if (gripTime < 1f)
                 {
                     //Set Ani Bool active
-                    Animator.SetBool("IsBShake", true);
+                    //Animator.SetBool("IsBShake", true);
                 }
                 else
                 {
                     //Set Ani Bool active
-                    Animator.SetBool("IsShake", true);
+                    //Animator.SetBool("IsShake", true);
                 }
 
 
                 timerRunning = true;
                 gripTimer = 0f;
 
-                if (_particleSystem != null) _particleSystem.Play();
+                if (_dustParticle != null) Instantiate(_dustParticle, this.transform.position, Quaternion.identity);
+                if (_crackSound != null) Instantiate(_crackSound);
+                _crackedColourChange.DimLights(gripTime, disableDuration);
             }
         }
 
@@ -74,27 +80,18 @@ public class HoldBreaker : MonoBehaviour
         }
     }
 
-    // Called by manager on all clients
-    public void TriggerDisable()
-    {
-        if (!gameObject.activeInHierarchy)
-            return;
-
-        StartCoroutine(DisableRoutine());
-    }
 
     private IEnumerator DisableRoutine()
     {
         isDisabled = true;
         timerRunning = false;
 
-        Animator.SetBool("IsBShake", false);
-        Animator.SetBool("IsShake", false);
+        //Animator.SetBool("IsBShake", false);
+        //Animator.SetBool("IsShake", false);
 
         selfCollider.enabled = false;
-        SetOpacity(fadedOpacity);
 
-        
+        yield return StartCoroutine(FadeOpacity(originalOpacity, fadedOpacity, 0.2f));
 
         if (hasCollided && _playerManager != null)
         {
@@ -106,7 +103,8 @@ public class HoldBreaker : MonoBehaviour
         yield return new WaitForSeconds(disableDuration);
 
         // re-enable
-        SetOpacity(originalOpacity);
+        yield return StartCoroutine(FadeOpacity(fadedOpacity, originalOpacity, 0.2f));
+
         selfCollider.enabled = true;
 
         isDisabled = false;
@@ -120,14 +118,31 @@ public class HoldBreaker : MonoBehaviour
     }
 
     public void OnCollision() { if (!isDisabled) hasCollided = true; }
-   
+
     public void EndLGrip() { hasCollided = false; }
-   
+
 
     private void SetOpacity(float v)
     {
         Color c = spriteRenderer.color;
         c.a = v;
         spriteRenderer.color = c;
+    }
+
+    private IEnumerator FadeOpacity(float startOpacity, float targetOpacity, float duration)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / duration;
+            SetOpacity(Mathf.Lerp(startOpacity, targetOpacity, t));
+
+            yield return null;
+        }
+
+        SetOpacity(targetOpacity);
     }
 }

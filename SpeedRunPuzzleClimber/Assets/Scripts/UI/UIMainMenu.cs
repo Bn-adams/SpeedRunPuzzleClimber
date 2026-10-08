@@ -22,6 +22,9 @@ public class UIMainMenu : MonoBehaviour
 
     private void OnEnable()
     {
+        current = 1;
+
+
         root = GetComponent<UIDocument>().rootVisualElement;
 
         // Reset list to prevent duplicate references
@@ -36,10 +39,10 @@ public class UIMainMenu : MonoBehaviour
         }
 
         // remove old callbacks just in case
-        buttons[0].clicked -= Quit;
-        buttons[1].clicked -= StartGame;
-        buttons[2].clicked -= OpenSettings;
-        buttons[3].clicked -= OpenHowToPlay;
+        //buttons[0].clicked -= Quit;
+        //buttons[1].clicked -= StartGame;
+        //buttons[2].clicked -= OpenSettings;
+        //buttons[3].clicked -= OpenHowToPlay;
 
         // add fresh callbacks
         buttons[0].clicked += Quit;
@@ -51,6 +54,8 @@ public class UIMainMenu : MonoBehaviour
         root.RegisterCallback<MouseMoveEvent>(OnMouseMove);
 
         controllerActive = Gamepad.current != null;
+        buttons[current].Focus();
+        buttons[current].AddToClassList("LevelButtonsFocus");
 
     }
 
@@ -122,9 +127,18 @@ public class UIMainMenu : MonoBehaviour
         else if (pad.dpad.down.wasPressedThisFrame || pad.leftStick.down.wasPressedThisFrame)
             Focus(1);
         if (pad.buttonSouth.wasPressedThisFrame)
-            Activate();
+            ControllerPress();
 
-        
+
+
+    }
+
+    private void ControllerPress()
+    {
+        if (current == 0) Quit();
+        if (current == 1) StartGame();
+        if (current == 2) OpenSettings();
+        if (current == 3) OpenHowToPlay();
     }
 
     private void Move(int direction)

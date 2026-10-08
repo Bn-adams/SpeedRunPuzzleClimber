@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlowFinish
       objectReference: {fileID: 0}
+    - target: {fileID: 2194187319604797071, guid: 5f03206b871ffc349984b5c7fdbe9489, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4419327824700547473, guid: 5f03206b871ffc349984b5c7fdbe9489, type: 3}
       propertyPath: _targetColour.b
       value: 0.4733888

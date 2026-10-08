@@ -11,6 +11,9 @@ public class PlayerInput : MonoBehaviour
     private Camera _camera;
 
     [SerializeField] GameObject sparkHalo;
+    [SerializeField] GameObject crimpSparkParticle;
+    [SerializeField] GameObject crimpSparkSFX;
+
     [SerializeField] GameObject fireWhooshSFX;
     [SerializeField] GameObject checkpointSFX;
 
@@ -63,7 +66,7 @@ public class PlayerInput : MonoBehaviour
 
     // Vibration
     private Coroutine GripVibrationCoroutine;
-    [SerializeField] private bool vibrationEnabled = true;
+    [SerializeField] public bool vibrationEnabled = true;
     [SerializeField] private float gripVibrationDuration = 0.05f;
     [SerializeField] private float gripVibrationStrengthLowFrequency = 0.05f;
     [SerializeField] private float gripVibrationStrengthHighFrequency = 0.1f;
@@ -73,6 +76,17 @@ public class PlayerInput : MonoBehaviour
 
 
     [SerializeField] private float gripReleaseDash = 0.2f;
+
+
+    // Crimping
+    private bool hasCrimped;
+    [SerializeField] private float crimpDelay = 0.3f;
+
+    [SerializeField] private float crimpReleaseDash = 10f;
+    [SerializeField] private float crimpReleaseDashMax = 10f;
+    [SerializeField] private float crimpReleaseDashMin = 10f;
+
+
 
     [SerializeField] float swingDampening = 0.98f;        // The rate which the x axis linear velocity multiplies by on fixed update
 
@@ -93,6 +107,7 @@ public class PlayerInput : MonoBehaviour
 
     [SerializeField] float LargestForce;
 
+    // cursor vis getting components & vital player settings
     private void Awake()
     {
         Cursor.visible = false;
@@ -105,6 +120,8 @@ public class PlayerInput : MonoBehaviour
         _bodyRB = _playerManager.bodyRB;
         _handRB = _playerManager.handRB;
     }
+    
+    // Updates mouse and controller input
     private void Update()
     {
         InitializeGamepad();
@@ -127,10 +144,12 @@ public class PlayerInput : MonoBehaviour
         }
        
     }
+
     private void FixedUpdate()
     {
         GrippedHandMovement();
     }
+
 
     private void GrippedHandMovement()
     {
@@ -145,6 +164,7 @@ public class PlayerInput : MonoBehaviour
             ControllerGrippedMovement(swingStick);
         }
     }
+
     private void InitializeGamepad()
     {
         // Get the current gamepad
@@ -246,6 +266,7 @@ public class PlayerInput : MonoBehaviour
             Cursor.visible = false;
         }
     }
+
     private void MouseMovement()
     {
         if (_playerManager.isGripping)
@@ -271,8 +292,6 @@ public class PlayerInput : MonoBehaviour
         _handRB.transform.position = targetPos;
     }
     
-
-    // Move hand based on joystick input and handle gripping
     private void ControllerMovement(Vector2 stick)
     {
 
@@ -288,6 +307,7 @@ public class PlayerInput : MonoBehaviour
         }
 
     }
+
     private void MouseGripppedMovement()
     {
 
@@ -357,6 +377,7 @@ public class PlayerInput : MonoBehaviour
             }
         }
     }
+
     private void MouseGrippingLogic()
     {
         if (Mouse.current == null)
@@ -386,6 +407,7 @@ public class PlayerInput : MonoBehaviour
             OnGripRelease();
         }
     }
+
     private void ControllerGrippingLogic()
     {
         bool leftTriggerPressed = leftTrigger >= triggerDeadZone;
@@ -450,6 +472,14 @@ public class PlayerInput : MonoBehaviour
                 // Sound FX
                 Instantiate(fireWhooshSFX);
             }
+            else if (_playerManager.CanGripCrimp)
+            {
+                StartCoroutine(DoCrimpDelay());
+
+                //_playerManager.dyno.StartDyno();
+                _gripped = false;
+                return;
+            }
             else if (_playerManager.CanGripJug)
             {
                 // Particles 
@@ -476,6 +506,7 @@ public class PlayerInput : MonoBehaviour
         }
         
     }
+
     private void OnGripRelease()
     {
         mouseDelta = Vector2.zero;
@@ -513,6 +544,36 @@ public class PlayerInput : MonoBehaviour
     }
 
 
+    private IEnumerator DoCrimpDelay()
+    {
+        if (hasCrimped) yield break;
+        hasCrimped = true;
+
+
+        OnGripRelease();
+        
+        //_bodyRB.AddForce(new Vector3(0, Mathf.Min(Mathf.Abs((Mathf.Max(_bodyRB.linearVelocity.y, crimpReleaseDashMax)) * crimpReleaseDash), crimpReleaseDashMin)), ForceMode.Impulse);
+        
+        if (_bodyRB.linearVelocity.y < 0) _bodyRB.linearVelocity = new Vector3(_bodyRB.linearVelocity.x, 0);
+
+        _bodyRB.AddForce(new Vector3(0, Mathf.Abs(Mathf.Min(Mathf.Max((crimpReleaseDash /_bodyRB.linearVelocity.y),crimpReleaseDashMin), crimpReleaseDashMax))), ForceMode.Impulse);
+
+        Debug.Log(Mathf.Abs(Mathf.Min(Mathf.Max((_bodyRB.linearVelocity.y * crimpReleaseDash), crimpReleaseDashMin), crimpReleaseDashMax)));
+        Debug.Log(_bodyRB.linearVelocity.y);
+
+        // Particles 
+        _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
+
+        Instantiate(crimpSparkParticle, _handRB.transform.position, Quaternion.identity);
+        Instantiate(crimpSparkSFX);
+
+        // Sound FX
+        Instantiate(fireWhooshSFX);
+
+
+        yield return new WaitForSeconds(crimpDelay);
+        hasCrimped = false;
+    }
     private void Finish()
     {
         _playerManager.Finish();

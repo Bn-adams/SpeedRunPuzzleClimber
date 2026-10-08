@@ -4,8 +4,13 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    public string PlayerName;
-    public int PlayerScore;
+    public bool ControllerVibration;
+    public bool FlickeringLights;
+    public bool Background;
+
+    public float MasterVolume;
+    public float MusicVolume;
+    public float SoundFXVolume;
     public float[] BestLevelTimes = new float[13];
 }
 
@@ -64,17 +69,76 @@ public class PlayerDataManager : MonoBehaviour
 
     // Getters and Setters
 
-    public string GetPlayerName()
+    // Contorller vibration
+    public bool GetControllerVibration()
     {
-        return cachedData.PlayerName;
+        return cachedData.ControllerVibration;
     }
 
-    public void SetPlayerName(string name)
+    public void SetControllerViberation(bool vibration)
     {
-        cachedData.PlayerName = name;
+        cachedData.ControllerVibration = vibration;
         Save();
     }
 
+
+    // Flickering Lights
+    public bool GetFlickeringLights()
+    {
+        return cachedData.FlickeringLights;
+    }
+    public void SetFlickeringLights(bool flickeringLights)
+    {
+        cachedData.FlickeringLights = flickeringLights;
+        Save();
+    }
+
+
+    // Background
+    public bool GetBackground()
+    {
+        return cachedData.Background;
+    }
+    public void SetBackground(bool background)
+    {
+        cachedData.FlickeringLights = background;
+        Save();
+    }
+
+    // Master Volume
+    public float GetMasterVolume()
+    {
+        return cachedData.MasterVolume;
+    }
+    public void SetMasterVolume(float volume)
+    {
+        cachedData.MasterVolume = volume;
+        Save();
+    }
+
+    // Music Volume
+    public float GetMusicVolume()
+    {
+        return cachedData.MusicVolume;
+    }
+    public void SetMusicVolume(float volume)
+    {
+        cachedData.MusicVolume = volume;
+        Save();
+    }
+
+    // SFX Volume
+    public float GetSoundFXVolume()
+    {
+        return cachedData.SoundFXVolume;
+    }
+    public void SetSoundFXVolume(float volume)
+    {
+        cachedData.SoundFXVolume = volume;
+        Save();
+    }
+
+    // Level times
     public float[] GetBestLevelTimes()
     {
         return cachedData.BestLevelTimes;
@@ -104,6 +168,7 @@ public class PlayerDataManager : MonoBehaviour
         Save();
     }
 
+    // Delete Saved Data
     public void DeleteData()
     {
         PlayerPrefs.DeleteKey(SAVE_KEY);

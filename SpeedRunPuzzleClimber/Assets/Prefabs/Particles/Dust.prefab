@@ -736,7 +736,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
     arc:
-      value: 187.15
+      value: 360
       mode: 0
       spread: 0
       speed:
@@ -4765,7 +4765,7 @@ ParticleSystemRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_RenderMode: 1
   m_MeshDistribution: 0

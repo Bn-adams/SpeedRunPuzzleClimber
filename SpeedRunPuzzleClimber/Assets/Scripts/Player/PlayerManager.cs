@@ -116,6 +116,12 @@ public class PlayerManager : MonoBehaviour
             hasFinished = true;
             timerManager.isTimerRunning = false;
             float timeDif = timerManager.timeElapsed - GameManager.Instance.GetCurrentLevelBestTime();
+
+            // Set checkpoint for There and Back?
+            spawnManager.currentCheckpoint = spawnManager.PotentialCheckpoint;
+
+
+
             _hudManager = FindAnyObjectByType<HUDManager>();
             if (_hudManager != null) _hudManager.OnFinish(timeDif, GameManager.Instance.GetCurrentLevelBestTime());
 

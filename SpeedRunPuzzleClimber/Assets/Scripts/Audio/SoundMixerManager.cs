@@ -8,16 +8,25 @@ public class SoundMixerManager : MonoBehaviour
     [SerializeField] private bool set;
 
     [SerializeField] private float masterVolume;
-    [SerializeField] private float soundFXVolume;
     [SerializeField] private float musicVolume;
+    [SerializeField] private float soundFXVolume;
 
     public float MasterVolume
     {
         get { return masterVolume; }
-        set 
-        { 
+        set
+        {
             masterVolume = value;
             SetMasterVolume(value);
+        }
+    }
+    public float MusicVolume
+    {
+        get { return musicVolume; }
+        set
+        {
+            musicVolume = value;
+            SetMusicVolume(value);
         }
     }
     public float SoundFXVolume
@@ -27,15 +36,6 @@ public class SoundMixerManager : MonoBehaviour
         {
             soundFXVolume = value;
             SetSoundFXVolume(value);
-        }
-    }
-    public float MusicVolume
-    {
-        get { return musicVolume; }
-        set
-        {
-            soundFXVolume = value;
-            SetMusicVolume(value);
         }
     }
 
@@ -49,23 +49,31 @@ public class SoundMixerManager : MonoBehaviour
             MusicVolume = musicVolume;
         }
     }
+    private void Start()
+    {
+        SetMasterVolume(PlayerDataManager.Instance.GetMasterVolume());
+        SetMusicVolume(PlayerDataManager.Instance.GetMusicVolume());
+        SetSoundFXVolume(PlayerDataManager.Instance.GetSoundFXVolume());
+    }
 
 
     public void SetMasterVolume(float level)
     {
-        Debug.Log("volumeSet");
+        level = Mathf.Clamp(level, 0.0001f, 1);
         audioMixer.SetFloat("MasterVolume", Mathf.Log10(level) * 20);
+        PlayerDataManager.Instance.SetMasterVolume(level);
     }
-
-    public void SetSoundFXVolume(float level)
-    {
-        audioMixer.SetFloat("SoundFXVolume", Mathf.Log10(level) * 20);
-
-    }
-
     public void SetMusicVolume(float level)
     {
+        level = Mathf.Clamp(level, 0.0001f, 1);
         audioMixer.SetFloat("MusicVolume", Mathf.Log10(level) * 20);
-
+        PlayerDataManager.Instance.SetMusicVolume(level);
     }
+    public void SetSoundFXVolume(float level)
+    {
+        level = Mathf.Clamp(level, 0.0001f, 1);
+        audioMixer.SetFloat("SoundFXVolume", Mathf.Log10(level) * 20);
+        PlayerDataManager.Instance.SetSoundFXVolume(level);
+    }
+
 }

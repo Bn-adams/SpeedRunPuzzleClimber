@@ -370,6 +370,15 @@ public class UILevelManager : MonoBehaviour
     // Used for controller clicking, the button used for this is "A" or gamepad.south
     private void ActivateCurrent()
     {
+        if (currentIndex == 0) OnBackPressed();
+        if (currentIndex == 1) OnLeaderboardPress();
+
+        if (currentIndex > 1 && PlayerDataManager.Instance.GetSingleLevelTime(currentIndex - 1) > 0)
+        {
+            Debug.Log(currentIndex - 1);
+        }
+
+
         if (focusables[currentIndex] is Button button)
         {
             button.SendEvent(new ClickEvent());
