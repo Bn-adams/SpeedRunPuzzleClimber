@@ -371,17 +371,20 @@ public class UILevelManager : MonoBehaviour
     private void ActivateCurrent()
     {
         if (currentIndex == 0) OnBackPressed();
-        if (currentIndex == 1) OnLeaderboardPress();
+        else if (currentIndex == 1) OnLeaderboardPress();
 
-        if (currentIndex > 1 && PlayerDataManager.Instance.GetSingleLevelTime(currentIndex - 1) > 0)
+        else if (currentIndex == 2) LoadLevel(1);
+
+        else if (currentIndex > 1 && PlayerDataManager.Instance.GetSingleLevelTime(currentIndex - 2) > 0)
         {
             Debug.Log(currentIndex - 1);
+            LoadLevel(currentIndex - 1);
         }
 
 
-        if (focusables[currentIndex] is Button button)
-        {
-            button.SendEvent(new ClickEvent());
-        }
+        //if (focusables[currentIndex] is Button button)
+        //{
+        //    button.SendEvent(new ClickEvent());
+        //}
     }
 }

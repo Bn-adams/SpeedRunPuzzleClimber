@@ -373,7 +373,7 @@ public class PlayerInput : MonoBehaviour
             if (LargestForce < (forceDirection * acceleration).magnitude)
             {
                 LargestForce = (forceDirection * acceleration).magnitude;
-                Debug.Log($"Input: {forceDirection.magnitude} | Acceleration: {acceleration} | Force: {(forceDirection * acceleration).magnitude}");
+                //Debug.Log($"Input: {forceDirection.magnitude} | Acceleration: {acceleration} | Force: {(forceDirection * acceleration).magnitude}");
             }
         }
     }
@@ -558,8 +558,8 @@ public class PlayerInput : MonoBehaviour
 
         _bodyRB.AddForce(new Vector3(0, Mathf.Abs(Mathf.Min(Mathf.Max((crimpReleaseDash /_bodyRB.linearVelocity.y),crimpReleaseDashMin), crimpReleaseDashMax))), ForceMode.Impulse);
 
-        Debug.Log(Mathf.Abs(Mathf.Min(Mathf.Max((_bodyRB.linearVelocity.y * crimpReleaseDash), crimpReleaseDashMin), crimpReleaseDashMax)));
-        Debug.Log(_bodyRB.linearVelocity.y);
+        //Debug.Log(Mathf.Abs(Mathf.Min(Mathf.Max((_bodyRB.linearVelocity.y * crimpReleaseDash), crimpReleaseDashMin), crimpReleaseDashMax)));
+        //Debug.Log(_bodyRB.linearVelocity.y);
 
         // Particles 
         _playerManager.particleManager.InstantiateSparkHalo(_handRB.transform.position);
