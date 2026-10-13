@@ -278,7 +278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b5876454c08d24b9f9dd0fc2f5d5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UISettingsMenu
+  _soundMixerManager: {fileID: 0}
   mainMenu: {fileID: 1933381738870180760}
+  _controllerSliderSpeed: 0.5
   currentFocusing: 1
 --- !u!1 &7580829705972747255
 GameObject:

@@ -52,5 +52,5 @@ MonoBehaviour:
   _fireLightingSFX: {fileID: 4630498488466484917, guid: 0467e56ec10986044be2a0e6234c996f, type: 3}
   _music: {fileID: 0}
   _emberParticlePrefab: {fileID: 0}
-  phase1: 1.5
+  phase1: 1
   phase2: 6.55
